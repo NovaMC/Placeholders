@@ -1,8 +1,14 @@
-needs-rp: false
+# Platforms
 fabric: ""
 forge: ""
 vanilla: ""
 bedrock: ""
+
+# Devices
 switch: ""
 xbox: ""
 playstation: ""
+
+# Status
+afk-java: ""
+afk-bedrock: ""

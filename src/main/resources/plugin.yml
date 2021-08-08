@@ -1,0 +1,14 @@
+name: Placeholders
+version: 1.1.0
+api-version: 1.16
+depend: [PlaceholderAPI, floodgate, Essentials]
+main: xyz.novaserver.placeholders.paper.PlaceholdersPaper
+author: Nova
+commands:
+  novaph:
+    permission: placeholders.admin
+    description: Admin command, gives access to reloading.
+permissions:
+  placeholders.admin:
+    default: op
+    description: Gives permission to reload command.

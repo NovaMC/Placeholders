@@ -1,36 +1,30 @@
-package xyz.novaserver.placeholders.command;
+package xyz.novaserver.placeholders.core.command;
 
 import com.google.common.collect.ImmutableList;
-import com.velocitypowered.api.command.SimpleCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import xyz.novaserver.placeholders.Placeholders;
+import xyz.novaserver.placeholders.core.PlaceholdersPlugin;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PlaceholdersCommand implements SimpleCommand {
-    private final Placeholders plugin;
+public class PHCommand implements AbstractCommand {
+    public PlaceholdersPlugin plugin;
 
-    public PlaceholdersCommand(Placeholders plugin) {
+    public PHCommand(PlaceholdersPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @Override
-    public void execute(Invocation invocation) {
-        String[] args = invocation.arguments();
-
+    public void execute(String[] args, Source source) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            if (plugin.reloadConfig()) {
-                invocation.source().sendMessage(Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
+            if (plugin.reloadConfiguration()) {
+                source.sendMessage(Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
             }
         }
     }
 
-    @Override
-    public List<String> suggest(Invocation invocation) {
-        String[] args = invocation.arguments();
+    public List<String> suggest(String[] args) {
         Stream<String> possibilities = Stream.of("reload");
 
         if (args.length == 0) {
@@ -46,8 +40,7 @@ public class PlaceholdersCommand implements SimpleCommand {
         }
     }
 
-    @Override
-    public boolean hasPermission(Invocation invocation) {
-        return invocation.source().hasPermission("placeholders.admin");
+    public String getPermission() {
+        return "placeholders.admin";
     }
 }

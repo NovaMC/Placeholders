@@ -1,18 +1,17 @@
-package xyz.novaserver.placeholders.util;
+package xyz.novaserver.placeholders.core.util;
 
 import com.google.common.io.ByteStreams;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
-import xyz.novaserver.placeholders.Placeholders;
 
 import java.io.*;
 import java.nio.file.Path;
 
 public class Config {
-    private final Placeholders plugin;
+    private final Object plugin;
     private ConfigurationNode rootNode;
 
-    public Config(Placeholders plugin) {
+    public Config(Object plugin) {
         this.plugin = plugin;
     }
 
