@@ -1,0 +1,10 @@
+repositories {
+    maven { url 'https://repo.opencollab.dev/main' }
+}
+
+dependencies {
+    compileOnly 'org.geysermc.floodgate:api:2.0-SNAPSHOT'
+    compileOnly 'net.luckperms:api:5.3'
+    compileOnly "org.spongepowered:configurate-yaml:3.7.2"
+    compileOnly "net.kyori:adventure-api:4.8.1"
+}

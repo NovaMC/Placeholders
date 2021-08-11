@@ -1,2 +1,5 @@
-rootProject.name = 'Placeholders'
-
+rootProject.name = 'placeholders'
+include 'common', 'velocity', 'paper'
+findProject(':common')?.name = 'placeholders-common'
+findProject(':velocity')?.name = 'placeholders-velocity'
+findProject(':paper')?.name = 'placeholders-paper'
