@@ -21,6 +21,7 @@ novoice-bedrock: ""
 # Chat
 chat-display:
   enabled: true
+  time: 80
   prefixes:
     - ""
     - ""
