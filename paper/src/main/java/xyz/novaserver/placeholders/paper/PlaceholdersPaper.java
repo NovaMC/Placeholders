@@ -6,6 +6,7 @@ import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
 import xyz.novaserver.placeholders.common.command.PHCommand;
 import xyz.novaserver.placeholders.common.util.Config;
 import xyz.novaserver.placeholders.paper.command.PaperCommand;
+import xyz.novaserver.placeholders.paper.listener.ChatListener;
 import xyz.novaserver.placeholders.paper.listener.PaperClientListener;
 
 public class PlaceholdersPaper extends JavaPlugin implements PlaceholdersPlugin {
@@ -18,6 +19,9 @@ public class PlaceholdersPaper extends JavaPlugin implements PlaceholdersPlugin 
 
         getServer().getPluginCommand("novaph").setExecutor(new PaperCommand(new PHCommand(this)));
         getServer().getPluginManager().registerEvents(new PaperClientListener(this), this);
+        if (this.getServer().getPluginManager().isPluginEnabled("TAB")) {
+            getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        }
 
         new PlaceholdersPAPI(this).register();
     }

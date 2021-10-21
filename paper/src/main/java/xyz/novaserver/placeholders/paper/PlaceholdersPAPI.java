@@ -12,6 +12,8 @@ import xyz.novaserver.placeholders.common.placeholder.type.AbstractPlayerPlaceho
 import xyz.novaserver.placeholders.common.placeholder.type.AbstractRelationalPlaceholder;
 import xyz.novaserver.placeholders.common.placeholder.type.BasePlaceholder;
 import xyz.novaserver.placeholders.paper.placeholder.AfkPlaceholder;
+import xyz.novaserver.placeholders.paper.placeholder.ChatDisplayPlaceholder;
+import xyz.novaserver.placeholders.paper.placeholder.VoicePlaceholder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +31,12 @@ public class PlaceholdersPAPI extends PlaceholderExpansion implements Relational
         // Relational placeholders
         addPlaceholder(new AfkPlaceholder(plugin));
         addPlaceholder(new PlatformPlaceholder(plugin));
+        addPlaceholder(new VoicePlaceholder(plugin));
         addPlaceholder(new PrefixPlaceholder());
+
+        if (plugin.getServer().getPluginManager().isPluginEnabled("TAB")) {
+            addPlaceholder(new ChatDisplayPlaceholder(plugin));
+        }
     }
 
     private void addPlaceholder(BasePlaceholder placeholder) {

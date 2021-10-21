@@ -12,3 +12,18 @@ playstation: ""
 # Status
 afk-java: ""
 afk-bedrock: ""
+
+voice-java: ""
+novoice-java: ""
+voice-bedrock: ""
+novoice-bedrock: ""
+
+# Chat
+chat-display:
+  enabled: true
+  prefixes:
+    - ""
+    - ""
+    - ""
+    - ""
+  color: ""
