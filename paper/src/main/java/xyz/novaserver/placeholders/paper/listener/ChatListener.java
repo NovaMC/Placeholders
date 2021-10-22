@@ -20,19 +20,21 @@ import java.util.*;
 
 public class ChatListener implements Listener {
     private final PlaceholdersPaper plugin;
-    private final ConfigurationNode node;
+    private ConfigurationNode node;
 
     private final Map<UUID, List<BukkitTask>> taskMap = new HashMap<>();
 
     public ChatListener(PlaceholdersPaper plugin) {
         this.plugin = plugin;
-        this.node = plugin.getConfiguration().getNode("chat-display");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerChat(AsyncChatEvent event) {
+        this.node = plugin.getConfiguration().getNode("chat-display");
+
         if (!node.getNode("enabled").getBoolean(true)) return;
         if (!TABAPI.isUnlimitedNameTagModeEnabled()) return;
+        if (event.isCancelled()) return;
 
         UUID uuid = event.getPlayer().getUniqueId();
         PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(uuid);
@@ -47,14 +49,14 @@ public class ChatListener implements Listener {
         pPlayer.setLastMessage(node.getNode("color").getString("") + raw);
 
         // Cancel and clear all tasks from the map
-        if (!taskMap.containsKey(uuid)) {
-            taskMap.put(uuid, new ArrayList<>());
-        } else {
+        if (taskMap.containsKey(uuid)) {
             List<BukkitTask> taskList = taskMap.get(uuid);
             if (!taskList.isEmpty()) {
                 taskList.forEach(BukkitTask::cancel);
                 taskMap.get(uuid).clear();
             }
+        } else {
+            taskMap.put(uuid, new ArrayList<>());
         }
 
         try {
@@ -80,7 +82,7 @@ public class ChatListener implements Listener {
         // Task to animate icon
         int current = 0;
         for (String prefix : prefixes) {
-            BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
                 pPlayer.setMessagePrefix(prefix);
             }, update * current);
 
@@ -89,7 +91,7 @@ public class ChatListener implements Listener {
         }
 
         // Clear message
-        BukkitTask task = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             tabPlayer.removeTemporaryValue(EnumProperty.ABOVENAME);
             pPlayer.setLastMessage("");
             pPlayer.setMessagePrefix("");
