@@ -2,12 +2,12 @@ package xyz.novaserver.placeholders.common.placeholder;
 
 import xyz.novaserver.placeholders.common.PlaceholderPlayer;
 import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
-import xyz.novaserver.placeholders.common.placeholder.type.AbstractRelationalPlaceholder;
+import xyz.novaserver.placeholders.common.placeholder.type.AbstractPlayerPlaceholder;
 
 import java.util.Map;
 import java.util.UUID;
 
-public class PlatformPlaceholder extends AbstractRelationalPlaceholder {
+public class PlatformPlaceholder extends AbstractPlayerPlaceholder {
     private final PlaceholdersPlugin plugin;
 
     public PlatformPlaceholder(PlaceholdersPlugin plugin) {
@@ -15,13 +15,12 @@ public class PlatformPlaceholder extends AbstractRelationalPlaceholder {
         this.plugin = plugin;
     }
 
-    public String get(UUID viewer, UUID player) {
+    public String get(UUID player) {
         Map<String, String> placeholderMap = plugin.getPlaceholderMap();
         PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(player);
-        PlaceholderPlayer pViewer = PlaceholderPlayer.getPlayerMap().get(viewer);
         String placeholder = "";
 
-        if (pPlayer == null || pViewer == null || pViewer.getPlatform().equals(PlaceholderPlayer.Platform.BEDROCK)) {
+        if (pPlayer == null) {
             return placeholder;
         }
 

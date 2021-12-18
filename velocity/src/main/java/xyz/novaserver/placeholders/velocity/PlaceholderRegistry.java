@@ -23,9 +23,9 @@ public class PlaceholderRegistry {
     private static void setupPlaceholders(PlaceholdersPlugin plugin) {
         // Player placeholders
         addPlaceholder(new TitlePlaceholder());
+        addPlaceholder(new PlatformPlaceholder(plugin));
 
         // Relational placeholders
-        addPlaceholder(new PlatformPlaceholder(plugin));
         addPlaceholder(new PrefixPlaceholder());
     }
 

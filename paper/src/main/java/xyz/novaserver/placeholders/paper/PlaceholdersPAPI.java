@@ -27,10 +27,10 @@ public class PlaceholdersPAPI extends PlaceholderExpansion implements Relational
 
         // Player placeholders
         addPlaceholder(new TitlePlaceholder());
+        addPlaceholder(new PlatformPlaceholder(plugin));
 
         // Relational placeholders
         addPlaceholder(new AfkPlaceholder(plugin));
-        addPlaceholder(new PlatformPlaceholder(plugin));
         addPlaceholder(new VoicePlaceholder(plugin));
         addPlaceholder(new PrefixPlaceholder());
 
