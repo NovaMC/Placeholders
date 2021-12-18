@@ -12,7 +12,7 @@ public class PrefixPlaceholder extends AbstractRelationalPlaceholder {
     private final LuckPerms luckPerms = LuckPermsProvider.get();
 
     public PrefixPlaceholder() {
-        super("prefix");
+        super("prefix", 3000);
     }
 
     @Override

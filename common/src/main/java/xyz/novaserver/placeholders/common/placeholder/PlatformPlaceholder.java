@@ -11,16 +11,17 @@ public class PlatformPlaceholder extends AbstractRelationalPlaceholder {
     private final PlaceholdersPlugin plugin;
 
     public PlatformPlaceholder(PlaceholdersPlugin plugin) {
-        super("platform");
+        super("platform", 5000);
         this.plugin = plugin;
     }
 
     public String get(UUID viewer, UUID player) {
         Map<String, String> placeholderMap = plugin.getPlaceholderMap();
         PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(player);
+        PlaceholderPlayer pViewer = PlaceholderPlayer.getPlayerMap().get(viewer);
         String placeholder = "";
 
-        if (pPlayer == null) {
+        if (pPlayer == null || pViewer == null || pViewer.getPlatform().equals(PlaceholderPlayer.Platform.BEDROCK)) {
             return placeholder;
         }
 

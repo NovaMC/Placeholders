@@ -2,9 +2,9 @@ package xyz.novaserver.placeholders.paper.listener;
 
 import com.google.common.reflect.TypeToken;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.neznamy.tab.api.EnumProperty;
-import me.neznamy.tab.api.TABAPI;
+import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.team.UnlimitedNametagManager;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -20,6 +20,7 @@ import java.util.*;
 
 public class ChatListener implements Listener {
     private final PlaceholdersPaper plugin;
+    private final TabAPI tabAPI = TabAPI.getInstance();
     private ConfigurationNode node;
 
     private final Map<UUID, List<BukkitTask>> taskMap = new HashMap<>();
@@ -33,7 +34,7 @@ public class ChatListener implements Listener {
         this.node = plugin.getConfiguration().getNode("chat-display");
 
         if (!node.getNode("enabled").getBoolean(true)) return;
-        if (!TABAPI.isUnlimitedNameTagModeEnabled()) return;
+        if (!(tabAPI.getTeamManager() instanceof UnlimitedNametagManager)) return;
         if (event.isCancelled()) return;
 
         UUID uuid = event.getPlayer().getUniqueId();
@@ -67,7 +68,8 @@ public class ChatListener implements Listener {
     }
 
     private void runChatDisplay(UUID uuid, PlaceholderPlayer pPlayer) throws ObjectMappingException {
-        TabPlayer tabPlayer = TABAPI.getPlayer(uuid);
+        TabPlayer tabPlayer = tabAPI.getPlayer(uuid);
+        UnlimitedNametagManager manager = (UnlimitedNametagManager) tabAPI.getTeamManager();
 
         List<String> prefixes = node.getNode("prefixes").getList(TypeToken.of(String.class), Collections.emptyList());
         final long time = node.getNode("time").getLong();
@@ -77,7 +79,7 @@ public class ChatListener implements Listener {
         pPlayer.setMessagePrefix(prefixes.get(0));
 
         // Set chat placeholder above name
-        tabPlayer.setValueTemporarily(EnumProperty.ABOVENAME, "%rel_nova_chat_display%");
+        manager.setLine(tabPlayer, "abovename", "%rel_nova_chat_display%");
 
         // Task to animate icon
         int current = 0;
@@ -92,7 +94,7 @@ public class ChatListener implements Listener {
 
         // Clear message
         BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
-            tabPlayer.removeTemporaryValue(EnumProperty.ABOVENAME);
+            manager.resetLine(tabPlayer, "abovename");
             pPlayer.setLastMessage("");
             pPlayer.setMessagePrefix("");
             taskMap.get(uuid).clear();

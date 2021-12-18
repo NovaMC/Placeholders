@@ -8,11 +8,8 @@ import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
 import java.util.UUID;
 
 public class ChatDisplayPlaceholder extends AbstractRelationalPlaceholder {
-    private final PlaceholdersPlugin plugin;
-
-    public ChatDisplayPlaceholder(PlaceholdersPaper plugin) {
+    public ChatDisplayPlaceholder() {
         super("chat_display");
-        this.plugin = plugin;
     }
 
     @Override

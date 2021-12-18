@@ -4,19 +4,9 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
 import xyz.novaserver.placeholders.common.PlaceholderPlayer;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class ClientListener {
-    private final Map<UUID, Integer> triesMap = new HashMap<>();
-
-    protected static final int MAX_TRIES = 8;
-    protected static final int DELAY = 2;
-
-    protected Map<UUID, Integer> getTriesMap() {
-        return triesMap;
-    }
 
     protected void setOptions(UUID player, String brand) {
         FloodgateApi floodgate = FloodgateApi.getInstance();
@@ -35,6 +25,4 @@ public abstract class ClientListener {
             PlaceholderPlayer.getPlayerMap().get(player).setPlatform(PlaceholderPlayer.Platform.FORGE);
         }
     }
-
-    protected abstract void recursiveCheck(UUID uuid);
 }

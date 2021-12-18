@@ -12,7 +12,7 @@ public class TitlePlaceholder extends AbstractPlayerPlaceholder {
     private final LuckPerms luckPerms = LuckPermsProvider.get();
 
     public TitlePlaceholder() {
-        super("title");
+        super("title", 3000);
     }
 
     @Override
