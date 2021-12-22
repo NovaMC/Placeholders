@@ -35,7 +35,7 @@ public class PlaceholdersPAPI extends PlaceholderExpansion implements Relational
         addPlaceholder(new PrefixPlaceholder());
 
         if (plugin.getServer().getPluginManager().isPluginEnabled("TAB")) {
-            addPlaceholder(new ChatDisplayPlaceholder());
+            addPlaceholder(new ChatDisplayPlaceholder(plugin));
         }
     }
 

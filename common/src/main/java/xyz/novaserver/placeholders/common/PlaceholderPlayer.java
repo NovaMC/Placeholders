@@ -11,7 +11,6 @@ public class PlaceholderPlayer {
     private DeviceOs deviceOs = DeviceOs.UNKNOWN;
 
     private String lastMessage = "";
-    private String messagePrefix = "";
 
     private static final Map<UUID, PlaceholderPlayer> playerMap = new HashMap<>();
 
@@ -38,14 +37,6 @@ public class PlaceholderPlayer {
 
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
-    }
-
-    public String getMessagePrefix() {
-        return messagePrefix;
-    }
-
-    public void setMessagePrefix(String messagePrefix) {
-        this.messagePrefix = messagePrefix;
     }
 
 
