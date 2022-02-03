@@ -7,15 +7,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.novaserver.placeholders.common.command.AbstractCommand;
+import xyz.novaserver.placeholders.common.command.CommandExecutor;
 
 import java.util.List;
 
 public class PaperCommand implements TabExecutor {
-    private final AbstractCommand command;
+    private final CommandExecutor executor;
 
-    public PaperCommand(AbstractCommand command) {
-        this.command = command;
+    public PaperCommand(CommandExecutor executor) {
+        this.executor = executor;
     }
 
     @Override
@@ -24,16 +24,16 @@ public class PaperCommand implements TabExecutor {
             sender.sendMessage(Component.text("You don't have permission to use this command!").color(NamedTextColor.RED));
             return true;
         }
-        this.command.execute(args, sender::sendMessage);
+        this.executor.execute(args, sender);
         return true;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return this.command.suggest(args);
+        return this.executor.suggest(args);
     }
 
     private boolean hasPermission(CommandSender sender) {
-        return sender.hasPermission(command.getPermission());
+        return sender.hasPermission(executor.getPermission());
     }
 }

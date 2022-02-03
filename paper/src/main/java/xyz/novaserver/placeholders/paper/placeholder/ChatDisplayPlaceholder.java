@@ -1,36 +1,33 @@
 package xyz.novaserver.placeholders.paper.placeholder;
 
 import ninja.leaping.configurate.ConfigurationNode;
-import xyz.novaserver.placeholders.common.PlaceholderPlayer;
 import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
-import xyz.novaserver.placeholders.common.placeholder.type.AbstractRelationalPlaceholder;
-import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
+import xyz.novaserver.placeholders.common.PlayerData;
+import xyz.novaserver.placeholders.common.placeholder.type.Placeholder;
+import xyz.novaserver.placeholders.common.placeholder.type.RelationalType;
 
 import java.util.UUID;
 
-public class ChatDisplayPlaceholder extends AbstractRelationalPlaceholder {
-    private final PlaceholdersPlugin plugin;
-
-    public ChatDisplayPlaceholder(PlaceholdersPaper plugin) {
-        super("chat_display");
-        this.plugin = plugin;
+public class ChatDisplayPlaceholder extends Placeholder implements RelationalType {
+    public ChatDisplayPlaceholder(PlaceholdersPlugin plugin) {
+        super(plugin, "chat_display");
     }
 
     @Override
     public String get(UUID viewer, UUID player) {
-        final ConfigurationNode node = plugin.getConfiguration().getNode("chat-display");
+        final ConfigurationNode node = getPlugin().getConfiguration().getNode("chat-display");
 
-        PlaceholderPlayer pViewer = PlaceholderPlayer.getPlayerMap().get(viewer);
-        PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(player);
+        PlayerData viewerData = getPlugin().getPlayerData(viewer);
+        PlayerData playerData = getPlugin().getPlayerData(player);
         String message = "";
 
-        if (pViewer != null && pPlayer != null && !pPlayer.getLastMessage().isEmpty()) {
-            if (!pViewer.getPlatform().equals(PlaceholderPlayer.Platform.BEDROCK)) {
-                message = node.getNode("prefix").getString("");
+        if (viewerData != null && playerData != null && !playerData.getLastMessage().isEmpty()) {
+            if (viewerData.isResourcePackApplied()) {
+                message = node.getNode("prefix-rp").getString("");
             } else {
-                message = node.getNode("prefix-bedrock").getString("");
+                message = node.getNode("prefix-vanilla").getString("");
             }
-            message += node.getNode("color").getString("") + pPlayer.getLastMessage();
+            message += node.getNode("color").getString("") + playerData.getLastMessage();
         }
 
         return message;

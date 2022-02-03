@@ -2,36 +2,34 @@ package xyz.novaserver.placeholders.paper.placeholder;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
-import xyz.novaserver.placeholders.common.PlaceholderPlayer;
+import org.bukkit.Bukkit;
 import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
-import xyz.novaserver.placeholders.common.placeholder.type.AbstractRelationalPlaceholder;
-import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
+import xyz.novaserver.placeholders.common.PlayerData;
+import xyz.novaserver.placeholders.common.placeholder.type.Placeholder;
+import xyz.novaserver.placeholders.common.placeholder.type.RelationalType;
 
 import java.util.UUID;
 
-public class AfkPlaceholder extends AbstractRelationalPlaceholder {
-    private final PlaceholdersPlugin plugin;
+public class AfkPlaceholder extends Placeholder implements RelationalType {
     private final Essentials essentials;
 
-    public AfkPlaceholder(PlaceholdersPaper plugin) {
-        super("afk");
-        this.plugin = plugin;
-        this.essentials = (Essentials) plugin.getServer().getPluginManager().getPlugin("Essentials");
+    public AfkPlaceholder(PlaceholdersPlugin plugin) {
+        super(plugin, "afk");
+        this.essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
     }
 
     @Override
     public String get(UUID viewer, UUID player) {
         User user = essentials.getUser(player);
-        PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(viewer);
+        PlayerData playerData = getPlugin().getPlayerData(viewer);
 
         if (!user.isAfk()) {
             return "";
-        }
-        else {
-            if (pPlayer != null && !pPlayer.getPlatform().equals(PlaceholderPlayer.Platform.BEDROCK)) {
-                return plugin.getPlaceholderMap().get("afk-java");
+        } else {
+            if (playerData != null && playerData.isResourcePackApplied()) {
+                return getPlugin().getRootValue("afk-rp");
             } else {
-                return plugin.getPlaceholderMap().get("afk-bedrock");
+                return getPlugin().getRootValue("afk-vanilla");
             }
         }
     }

@@ -9,21 +9,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PHCommand implements AbstractCommand {
-    public PlaceholdersPlugin plugin;
-
-    public PHCommand(PlaceholdersPlugin plugin) {
-        this.plugin = plugin;
+public class PHCommandExecutor extends CommandExecutor {
+    public PHCommandExecutor(PlaceholdersPlugin plugin) {
+        super(plugin);
     }
 
-    public void execute(String[] args, Source source) {
+    @Override
+    public void execute(String[] args, Object source) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            if (plugin.reloadConfiguration()) {
-                source.sendMessage(Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
+            if (getPlugin().reloadConfiguration()) {
+                getPlugin().sendMessage(source, Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
             }
         }
     }
 
+    @Override
     public List<String> suggest(String[] args) {
         Stream<String> possibilities = Stream.of("reload");
 
@@ -40,6 +40,7 @@ public class PHCommand implements AbstractCommand {
         }
     }
 
+    @Override
     public String getPermission() {
         return "placeholders.admin";
     }

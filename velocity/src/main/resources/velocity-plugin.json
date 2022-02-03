@@ -1,0 +1,17 @@
+{
+  "id": "placeholders",
+  "name": "Placeholders",
+  "version": "@version@",
+  "main": "xyz.novaserver.placeholders.velocity.PlaceholdersVelocity",
+  "authors": ["Nova"],
+  "dependencies": [
+    {
+      "id": "tab",
+      "optional": false
+    },
+    {
+      "id": "floodgate",
+      "optional": false
+    }
+  ]
+}

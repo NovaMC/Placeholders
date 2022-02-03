@@ -1,42 +1,36 @@
 package xyz.novaserver.placeholders.paper.placeholder;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import xyz.novaserver.placeholders.common.PlaceholderPlayer;
-import xyz.novaserver.placeholders.common.placeholder.type.AbstractRelationalPlaceholder;
-import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import su.plo.voice.PlasmoVoiceAPI;
+import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
+import xyz.novaserver.placeholders.common.PlayerData;
+import xyz.novaserver.placeholders.common.placeholder.type.Placeholder;
+import xyz.novaserver.placeholders.common.placeholder.type.RelationalType;
 
 import java.util.UUID;
 
-public class VoicePlaceholder extends AbstractRelationalPlaceholder {
-    private final PlaceholdersPaper plugin;
+public class VoicePlaceholder extends Placeholder implements RelationalType {
+    private PlasmoVoiceAPI plasmoApi;
 
-    public VoicePlaceholder(PlaceholdersPaper plugin) {
-        super("voice");
-        this.plugin = plugin;
+    public VoicePlaceholder(PlaceholdersPlugin plugin) {
+        super(plugin, "voice", 5000);
+
+        RegisteredServiceProvider<PlasmoVoiceAPI> provider = Bukkit.getServicesManager().getRegistration(PlasmoVoiceAPI.class);
+        if (provider != null) {
+            plasmoApi = provider.getProvider();
+        }
     }
 
     @Override
     public String get(UUID viewer, UUID player) {
-        PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(viewer);
-        String text = "%plasmovoice_installed%";
-        String output = "";
+        PlayerData viewerData = getPlugin().getPlayerData(viewer);
+        boolean hasVoice = plasmoApi != null && plasmoApi.hasVoiceChat(player);
 
-        text = PlaceholderAPI.setPlaceholders(plugin.getServer().getPlayer(player), text);
-
-        if (pPlayer != null && !pPlayer.getPlatform().equals(PlaceholderPlayer.Platform.BEDROCK)) {
-            if (text.equals("true")) {
-                output = plugin.getPlaceholderMap().get("voice-java");
-            } else if (text.equals("false")) {
-                output = plugin.getPlaceholderMap().get("novoice-java");
-            }
+        if (viewerData != null && viewerData.isResourcePackApplied()) {
+            return hasVoice ? getPlugin().getRootValue("voice-rp") : getPlugin().getRootValue("novoice-rp");
         } else {
-            if (text.equals("true")) {
-                output = plugin.getPlaceholderMap().get("voice-bedrock");
-            } else if (text.equals("false")) {
-                output = plugin.getPlaceholderMap().get("novoice-bedrock");
-            }
+            return hasVoice ? getPlugin().getRootValue("voice-vanilla") : getPlugin().getRootValue("novoice-vanilla");
         }
-
-        return output;
     }
 }

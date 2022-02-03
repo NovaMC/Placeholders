@@ -5,19 +5,20 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 
 import java.io.*;
-import java.nio.file.Path;
 
 public class Config {
     private final Object plugin;
+    private final File configFile;
+    private final String defaultFile;
     private ConfigurationNode rootNode;
 
-    public Config(Object plugin) {
+    public Config(Object plugin, File configFile, String defaultFile) {
         this.plugin = plugin;
+        this.configFile = configFile;
+        this.defaultFile = defaultFile;
     }
 
-    public boolean loadConfig(Path dataDirectory) {
-        File configFile = new File(dataDirectory.toFile(), "config.yml");
-
+    public boolean loadConfig() {
         if (!configFile.getParentFile().exists()) {
             configFile.getParentFile().mkdirs();
         }
@@ -25,7 +26,7 @@ public class Config {
         if (!configFile.exists()) {
             try {
                 configFile.createNewFile();
-                try (InputStream is = plugin.getClass().getResourceAsStream("/" + configFile.getName());
+                try (InputStream is = plugin.getClass().getResourceAsStream("/" + defaultFile);
                      OutputStream os = new FileOutputStream(configFile)) {
                     ByteStreams.copy(is, os);
                 }

@@ -1,0 +1,30 @@
+# Whether to use playerdata (platform, os, etc.) data from proxy plugin
+proxy-data: false
+
+# Platforms
+fabric: ""
+forge: ""
+vanilla: ""
+bedrock: ""
+
+# Devices
+switch: ""
+xbox: ""
+playstation: ""
+
+# Status
+afk-rp: ""
+afk-vanilla: ""
+
+voice-rp: ""
+novoice-rp: ""
+voice-vanilla: ""
+novoice-vanilla: ""
+
+# Chat
+chat-display:
+  enabled: true
+  time: 80
+  prefix-rp: ""
+  prefix-vanilla: ""
+  color: ""

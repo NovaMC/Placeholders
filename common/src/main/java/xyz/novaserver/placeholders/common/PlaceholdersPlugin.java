@@ -1,20 +1,24 @@
 package xyz.novaserver.placeholders.common;
 
+import net.kyori.adventure.text.Component;
 import ninja.leaping.configurate.ConfigurationNode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 public interface PlaceholdersPlugin {
+    PlayerData getPlayerData(UUID player);
+
+    void addPlayerData(UUID player);
+
+    void removePlayerData(UUID player);
+
+    void sendMessage(Object source, Component message);
+
     boolean reloadConfiguration();
 
     ConfigurationNode getConfiguration();
 
-    default Map<String, String> getPlaceholderMap() {
-        Map<String, String> placeholderMap = new HashMap<>();
-        getConfiguration().getChildrenMap().keySet().forEach(key -> {
-            placeholderMap.put((String)key, getConfiguration().getChildrenMap().get(key).getString());
-        });
-        return placeholderMap;
+    default String getRootValue(String key) {
+        return getConfiguration().getNode(key).getString();
     }
 }

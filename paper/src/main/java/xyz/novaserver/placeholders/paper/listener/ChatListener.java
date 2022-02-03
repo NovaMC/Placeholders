@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;
-import xyz.novaserver.placeholders.common.PlaceholderPlayer;
+import xyz.novaserver.placeholders.common.PlayerData;
 import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
 
 import java.util.HashMap;
@@ -32,13 +32,13 @@ public class ChatListener implements Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         final ConfigurationNode node = plugin.getConfiguration().getNode("chat-display");
 
+        if (event.isCancelled()) return;
         if (!node.getNode("enabled").getBoolean(true)) return;
         if (!(tabAPI.getTeamManager() instanceof UnlimitedNametagManager manager)) return;
-        if (event.isCancelled()) return;
 
         UUID uuid = event.getPlayer().getUniqueId();
         TabPlayer tabPlayer = tabAPI.getPlayer(uuid);
-        PlaceholderPlayer pPlayer = PlaceholderPlayer.getPlayerMap().get(uuid);
+        PlayerData playerData = plugin.getPlayerData(uuid);
 
         // Raw contents of the message shortened to 16 characters
         String raw = PlainTextComponentSerializer.plainText().serialize(event.message());
@@ -47,7 +47,7 @@ public class ChatListener implements Listener {
         }
 
         // Set message on player
-        pPlayer.setLastMessage(raw);
+        playerData.setLastMessage(raw);
 
         // Cancel and clear task from the map
         if (taskMap.containsKey(uuid)) {
@@ -61,7 +61,7 @@ public class ChatListener implements Listener {
         // Clear message
         BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             manager.resetLine(tabPlayer, "abovename");
-            pPlayer.setLastMessage("");
+            playerData.setLastMessage("");
             taskMap.remove(uuid);
         }, node.getNode("time").getLong());
         taskMap.put(uuid, task);
