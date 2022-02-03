@@ -31,11 +31,12 @@ public class PAPIExpansion extends PlaceholderExpansion implements Relational {
         addPlaceholder(new PlatformPlaceholder(plugin));
 
         // Relational placeholders
-        addPlaceholder(new AfkPlaceholder(plugin));
-        addPlaceholder(new VoicePlaceholder(plugin));
         addPlaceholder(new PrefixPlaceholder(plugin));
-
-        if (plugin.getServer().getPluginManager().isPluginEnabled("TAB")) {
+        if (plugin.getServer().getPluginManager().isPluginEnabled("Essentials")) {
+            addPlaceholder(new AfkPlaceholder(plugin));
+        } if (plugin.getServer().getPluginManager().isPluginEnabled("PlasmoVoice")) {
+            addPlaceholder(new VoicePlaceholder(plugin));
+        } if (plugin.getServer().getPluginManager().isPluginEnabled("TAB")) {
             addPlaceholder(new ChatDisplayPlaceholder(plugin));
         }
     }

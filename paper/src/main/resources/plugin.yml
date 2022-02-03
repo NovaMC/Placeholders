@@ -1,8 +1,8 @@
 name: @name@
 version: @version@
 api-version: 1.16
-softdepend: [TAB]
-depend: [PlaceholderAPI, floodgate, Essentials]
+softdepend: [TAB, Essentials, PlasmoVoice]
+depend: [PlaceholderAPI, floodgate]
 main: xyz.novaserver.placeholders.paper.PlaceholdersPaper
 author: Nova
 commands:
