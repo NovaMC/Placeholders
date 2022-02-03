@@ -1,6 +1,6 @@
 {
   "id": "placeholders",
-  "name": "Placeholders",
+  "name": "@name@",
   "version": "@version@",
   "main": "xyz.novaserver.placeholders.velocity.PlaceholdersVelocity",
   "authors": ["Nova"],
