@@ -5,10 +5,12 @@ import xyz.novaserver.placeholders.common.PlayerData;
 public class PlayerDataUtils {
     public static PlayerData.Platform getPlatform(String brand) {
         PlayerData.Platform platform;
-        switch (brand) {
-            case "fabric" -> platform = PlayerData.Platform.FABRIC;
-            case "forge", "fml" -> platform = PlayerData.Platform.FORGE;
-            default -> platform = PlayerData.Platform.DEFAULT;
+        if (brand.contains("fabric")) {
+            platform = PlayerData.Platform.FABRIC;
+        } else if (brand.matches("(?i)fml|forge")) {
+            platform = PlayerData.Platform.FORGE;
+        } else {
+            platform = PlayerData.Platform.DEFAULT;
         }
         return platform;
     }

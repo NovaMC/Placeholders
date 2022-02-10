@@ -16,6 +16,7 @@ import xyz.novaserver.placeholders.common.PlayerData;
 import xyz.novaserver.placeholders.common.util.PlayerDataUtils;
 import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class PaperClientListener implements Listener, PluginMessageListener {
@@ -61,8 +62,7 @@ public class PaperClientListener implements Listener, PluginMessageListener {
         if (useProxyData) return;
         if (!channel.equals(BRAND_CHANNEL)) return;
 
-        ByteArrayDataInput in = ByteStreams.newDataInput(message);
-        String brand = in.readUTF();
+        String brand = new String(message, StandardCharsets.UTF_8);
         UUID uuid = player.getUniqueId();
 
         // Try to create player data in case this event is fired before PlayerJoinEvent

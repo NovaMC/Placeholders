@@ -1,0 +1,41 @@
+metadata.format.version = "1.1"
+
+[versions]
+
+# API
+configurate = "3.7.2"
+adventure = "4.8.1"
+
+# General
+luckperms = "5.3"
+floodgate = "2.0-SNAPSHOT"
+
+# Platforms
+paper = "1.18.1-R0.1-SNAPSHOT"
+velocity = "3.1.0"
+
+# Platform extras
+placeholderapi = "2.10.10"
+essentials = "2.19.2"
+tab = "3.0.2"
+plasmo = "1.0.9"
+
+[libraries]
+
+# API
+configurate = { group = "org.spongepowered", name = "configurate-yaml", version.ref = "configurate" }
+adventure = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
+
+# General
+luckperms = { group = "net.luckperms", name = "api", version.ref = "luckperms" }
+floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
+
+# Platforms
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
+
+# Platform extras
+placeholderapi = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderapi" }
+essentials = { group = "net.essentialsx", name = "EssentialsX", version.ref = "essentials" }
+tab = { group = "me.neznamy", name = "tab-api", version.ref = "tab" }
+plasmo = { group = "su.plo.voice", name = "spigot", version.ref = "plasmo" }
