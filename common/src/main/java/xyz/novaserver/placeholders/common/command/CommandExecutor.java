@@ -1,18 +1,18 @@
 package xyz.novaserver.placeholders.common.command;
 
-import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
+import xyz.novaserver.placeholders.common.Placeholders;
 
 import java.util.List;
 
 public abstract class CommandExecutor {
-    private final PlaceholdersPlugin plugin;
+    private final Placeholders placeholders;
 
-    public CommandExecutor(PlaceholdersPlugin plugin) {
-        this.plugin = plugin;
+    public CommandExecutor(Placeholders placeholders) {
+        this.placeholders = placeholders;
     }
 
-    public PlaceholdersPlugin getPlugin() {
-        return plugin;
+    public Placeholders getPlaceholders() {
+        return placeholders;
     }
 
     public abstract void execute(String[] args, Object source);

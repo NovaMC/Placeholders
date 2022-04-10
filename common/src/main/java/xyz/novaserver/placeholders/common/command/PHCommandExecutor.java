@@ -3,22 +3,22 @@ package xyz.novaserver.placeholders.common.command;
 import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
+import xyz.novaserver.placeholders.common.Placeholders;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PHCommandExecutor extends CommandExecutor {
-    public PHCommandExecutor(PlaceholdersPlugin plugin) {
-        super(plugin);
+    public PHCommandExecutor(Placeholders placeholders) {
+        super(placeholders);
     }
 
     @Override
     public void execute(String[] args, Object source) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            if (getPlugin().reloadConfiguration()) {
-                getPlugin().sendMessage(source, Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
+            if (getPlaceholders().reloadConfig()) {
+                getPlaceholders().getPlugin().sendMessage(source, Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
             }
         }
     }

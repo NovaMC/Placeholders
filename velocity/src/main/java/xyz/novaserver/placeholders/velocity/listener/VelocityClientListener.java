@@ -6,28 +6,32 @@ import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.player.PlayerClientBrandEvent;
 import com.velocitypowered.api.event.player.PlayerResourcePackStatusEvent;
 import org.geysermc.floodgate.api.FloodgateApi;
-import xyz.novaserver.placeholders.common.PlaceholdersPlugin;
-import xyz.novaserver.placeholders.common.PlayerData;
-import xyz.novaserver.placeholders.common.util.PlayerDataUtils;
+import xyz.novaserver.placeholders.common.Placeholders;
+import xyz.novaserver.placeholders.common.data.PlayerData;
+import xyz.novaserver.placeholders.common.messaging.DataConstants;
+import xyz.novaserver.placeholders.common.util.DataUtils;
 
 import java.util.UUID;
 
 public class VelocityClientListener {
-    private final PlaceholdersPlugin plugin;
+    private final Placeholders placeholders;
     private final FloodgateApi floodgate = FloodgateApi.getInstance();
 
-    public VelocityClientListener(PlaceholdersPlugin plugin) {
-        this.plugin = plugin;
+    public VelocityClientListener(Placeholders placeholders) {
+        this.placeholders = placeholders;
     }
 
     @Subscribe
     public void onDisconnect(DisconnectEvent event) {
-        plugin.removePlayerData(event.getPlayer().getUniqueId());
+        placeholders.removeData(event.getPlayer().getUniqueId());
     }
 
     @Subscribe
     public void onLogin(PostLoginEvent event) {
-        plugin.addPlayerData(event.getPlayer().getUniqueId());
+        UUID uuid = event.getPlayer().getUniqueId();
+        if (!placeholders.hasData(uuid)) {
+            placeholders.addData(uuid);
+        }
     }
 
     @Subscribe
@@ -35,30 +39,41 @@ public class VelocityClientListener {
         UUID uuid = event.getPlayer().getUniqueId();
 
         // Try to create player data in case this event is fired before PostLoginEvent
-        plugin.addPlayerData(uuid);
+        if (!placeholders.hasData(uuid)) {
+            placeholders.addData(uuid);
+        }
 
-        PlayerData playerData = plugin.getPlayerData(uuid);
-        PlayerData.Platform platform = PlayerDataUtils.getPlatform(event.getBrand());
+        PlayerData playerData = placeholders.getData(uuid);
+        PlayerData.Platform platform = DataUtils.getPlatform(event.getBrand());
 
         if (floodgate.isFloodgatePlayer(uuid)) {
             platform = PlayerData.Platform.BEDROCK;
             playerData.setDeviceOs(floodgate.getPlayer(uuid).getDeviceOs());
         }
-
         playerData.setPlatform(platform);
+
+        // Send updated data to backend server
+        if (placeholders.isUsingProxyData()) {
+            placeholders.getProxyConnection().sendData(uuid, DataConstants.CHANNEL_PLATFORM, playerData.getPlatform().name());
+            placeholders.getProxyConnection().sendData(uuid, DataConstants.CHANNEL_DEVICE, playerData.getDeviceOs().name());
+        }
     }
 
     @Subscribe
     public void onResourcePackStatus(PlayerResourcePackStatusEvent event) {
+        UUID uuid = event.getPlayer().getUniqueId();
+
         // Try to create player data in case this event is fired before PostLoginEvent
-        plugin.addPlayerData(event.getPlayer().getUniqueId());
+        if (!placeholders.hasData(uuid)) {
+            placeholders.addData(uuid);
+        }
 
-        PlayerData playerData = plugin.getPlayerData(event.getPlayer().getUniqueId());
+        PlayerData playerData = placeholders.getData(uuid);
+        playerData.setResourcePackApplied(event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFUL);
 
-        if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFUL) {
-            playerData.setResourcePackApplied(true);
-        } else {
-            playerData.setResourcePackApplied(false);
+        // Send updated data to backend server
+        if (placeholders.isUsingProxyData()) {
+            placeholders.getProxyConnection().sendData(uuid, DataConstants.CHANNEL_RP, playerData.isResourcePackApplied());
         }
     }
 }

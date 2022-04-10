@@ -20,7 +20,7 @@ pluginManagement {
     includeBuild("build-logic")
 }
 
-rootProject.name = "Placeholders"
+rootProject.name = "NovaPlaceholders"
 
 include(":common")
 include(":velocity")
