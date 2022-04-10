@@ -2,7 +2,7 @@
   "id": "placeholders",
   "name": "@name@",
   "version": "@version@",
-  "main": "xyz.novaserver.placeholders.velocity.PlaceholdersVelocity",
+  "main": "xyz.novaserver.placeholders.velocity.Main",
   "authors": ["Nova"],
   "dependencies": [
     {
