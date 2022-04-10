@@ -10,7 +10,7 @@ public interface Plugin {
 
     void sendMessage(Object source, Component component);
 
-    void logError(String message);
+    void logError(String message, Exception e);
 
     void logInfo(String message);
 }

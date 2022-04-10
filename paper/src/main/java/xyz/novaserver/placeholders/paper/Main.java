@@ -32,6 +32,8 @@ public class Main extends JavaPlugin implements Plugin {
         if (this.getServer().getPluginManager().isPluginEnabled("TAB")) {
             getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         }
+
+        logInfo("Placeholders finished loading!");
     }
 
     @Override
@@ -52,8 +54,12 @@ public class Main extends JavaPlugin implements Plugin {
     }
 
     @Override
-    public void logError(String message) {
-        getSLF4JLogger().error(message);
+    public void logError(String message, Exception e) {
+        if (e != null) {
+            getSLF4JLogger().error(message, e);
+        } else {
+            getSLF4JLogger().error(message);
+        }
     }
 
     @Override

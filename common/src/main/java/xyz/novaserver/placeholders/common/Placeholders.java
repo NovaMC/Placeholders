@@ -7,6 +7,7 @@ import xyz.novaserver.placeholders.common.messaging.ProxyConnection;
 import xyz.novaserver.placeholders.common.util.Config;
 import xyz.novaserver.placeholders.placeholder.type.Placeholder;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public final class Placeholders {
@@ -32,12 +33,12 @@ public final class Placeholders {
             for (Class<? extends Placeholder> clazz : classes) {
                 try {
                     placeholderList.add(clazz.getDeclaredConstructor(Placeholders.class).newInstance(this));
-                } catch (NoClassDefFoundError e) {
-                    plugin.logInfo("Not loading " + clazz.getSimpleName() + " because of missing classes!");
+                } catch (NoClassDefFoundError | InvocationTargetException e) {
+                    plugin.logInfo("Not loading " + clazz.getSimpleName() + " because of missing dependencies!");
                 }
             }
-        } catch (ReflectiveOperationException e) {
-            plugin.logError("A reflection error was encountered while loading placeholders!");
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            plugin.logError("A reflection error was encountered while loading placeholders!", e);
         }
         // Register placeholders
         expansion.register(this, placeholderList);
@@ -82,7 +83,7 @@ public final class Placeholders {
     public boolean reloadConfig() {
         boolean success = configuration.loadConfig();
         if (!success) {
-            plugin.logError("Failed to load Placeholders config file!");
+            plugin.logError("Failed to load Placeholders config file!", null);
         }
         return success;
     }

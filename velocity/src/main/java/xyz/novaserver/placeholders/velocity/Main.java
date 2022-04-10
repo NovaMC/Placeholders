@@ -45,6 +45,8 @@ public class Main implements Plugin {
 
         this.getProxy().getCommandManager().register("novaphv", new VelocityCommand(new PHCommandExecutor(placeholders)));
         this.getProxy().getEventManager().register(this, new VelocityClientListener(placeholders));
+
+        logInfo("Placeholders finished loading!");
     }
 
     public ProxyServer getProxy() {
@@ -69,8 +71,12 @@ public class Main implements Plugin {
     }
 
     @Override
-    public void logError(String message) {
-        logger.error(message);
+    public void logError(String message, Exception e) {
+        if (e != null) {
+            logger.error(message, e);
+        } else {
+            logger.error(message);
+        }
     }
 
     @Override
