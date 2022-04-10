@@ -1,30 +1,35 @@
-# Whether to use playerdata (platform, os, etc.) data from proxy plugin
-proxy-data: false
+# Whether to send playerdata (platform, os, etc.) to backend servers
+use-proxy-data: false
 
 # Platforms
-fabric: ""
-forge: ""
-vanilla: ""
-bedrock: ""
+platform:
+  fabric: ""
+  forge: ""
+  default: ""
 
 # Devices
-switch: ""
-xbox: ""
-playstation: ""
+device:
+  switch: ""
+  xbox: ""
+  playstation: ""
+  default: ""
 
 # Status
-afk-rp: ""
-afk-vanilla: ""
-
-voice-rp: ""
-novoice-rp: ""
-voice-vanilla: ""
-novoice-vanilla: ""
+status:
+  afk:
+    rp: ""
+    default: ""
+  voice:
+    rp: ""
+    default: ""
+  no-voice:
+    rp: ""
+    default: ""
 
 # Chat
 chat-display:
   enabled: true
   time: 80
   prefix-rp: ""
-  prefix-vanilla: ""
+  prefix-default: ""
   color: ""

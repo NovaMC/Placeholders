@@ -5,44 +5,25 @@ import me.clip.placeholderapi.expansion.Relational;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import xyz.novaserver.placeholders.common.placeholder.PlatformPlaceholder;
-import xyz.novaserver.placeholders.common.placeholder.PrefixPlaceholder;
-import xyz.novaserver.placeholders.common.placeholder.TitlePlaceholder;
-import xyz.novaserver.placeholders.common.placeholder.type.Placeholder;
-import xyz.novaserver.placeholders.common.placeholder.type.PlayerType;
-import xyz.novaserver.placeholders.common.placeholder.type.RelationalType;
-import xyz.novaserver.placeholders.common.placeholder.type.ServerType;
-import xyz.novaserver.placeholders.paper.placeholder.AfkPlaceholder;
-import xyz.novaserver.placeholders.paper.placeholder.ChatDisplayPlaceholder;
-import xyz.novaserver.placeholders.paper.placeholder.VoicePlaceholder;
+import xyz.novaserver.placeholders.common.Expansion;
+import xyz.novaserver.placeholders.common.Placeholders;
+import xyz.novaserver.placeholders.placeholder.type.Placeholder;
+import xyz.novaserver.placeholders.placeholder.type.PlayerType;
+import xyz.novaserver.placeholders.placeholder.type.RelationalType;
+import xyz.novaserver.placeholders.placeholder.type.ServerType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class PAPIExpansion extends PlaceholderExpansion implements Relational {
-    private final PlaceholdersPaper plugin;
+public class PAPIExpansion extends PlaceholderExpansion implements Relational, Expansion {
+    private final Main plugin;
+    private Placeholders placeholders;
+
     private final Map<String, Placeholder> placeholderMap = new HashMap<>();
 
-    public PAPIExpansion(PlaceholdersPaper plugin) {
+    public PAPIExpansion(Main plugin) {
         this.plugin = plugin;
-
-        // Player placeholders
-        addPlaceholder(new TitlePlaceholder(plugin));
-        addPlaceholder(new PlatformPlaceholder(plugin));
-
-        // Relational placeholders
-        addPlaceholder(new PrefixPlaceholder(plugin));
-        if (plugin.getServer().getPluginManager().isPluginEnabled("Essentials")) {
-            addPlaceholder(new AfkPlaceholder(plugin));
-        } if (plugin.getServer().getPluginManager().isPluginEnabled("PlasmoVoice")) {
-            addPlaceholder(new VoicePlaceholder(plugin));
-        } if (plugin.getServer().getPluginManager().isPluginEnabled("TAB")) {
-            addPlaceholder(new ChatDisplayPlaceholder(plugin));
-        }
-    }
-
-    private void addPlaceholder(Placeholder placeholder) {
-        placeholderMap.put(placeholder.getIdentifier(), placeholder);
     }
 
     @Override
@@ -67,11 +48,13 @@ public class PAPIExpansion extends PlaceholderExpansion implements Relational {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
+        if (player == null) return null;
+
         // Check if placeholder exists & is player placeholder then get value
         String lower = params.toLowerCase();
         if (placeholderMap.containsKey(lower)) {
-            if (player != null && placeholderMap.get(lower) instanceof PlayerType placeholder) {
-                return placeholder.get(player.getUniqueId());
+            if (placeholderMap.get(lower) instanceof PlayerType placeholder) {
+                return placeholder.get(placeholders.getData(player.getUniqueId()));
             }
             else if (placeholderMap.get(lower) instanceof ServerType placeholder) {
                 return placeholder.get();
@@ -82,16 +65,22 @@ public class PAPIExpansion extends PlaceholderExpansion implements Relational {
 
     @Override
     public String onPlaceholderRequest(Player viewer, Player player, String identifier) {
-        if (player == null || viewer == null) {
-            return null;
-        }
+        if (player == null || viewer == null) return null;
 
         // Check if placeholder exists & is relational placeholder then get value
         String lower = identifier.toLowerCase();
         if (placeholderMap.containsKey(lower) && placeholderMap.get(lower) instanceof RelationalType placeholder) {
-            return placeholder.get(viewer.getUniqueId(), player.getUniqueId());
+            return placeholder.get(placeholders.getData(viewer.getUniqueId()), placeholders.getData(player.getUniqueId()));
         }
-
         return null;
+    }
+
+    @Override
+    public void register(Placeholders placeholders, List<Placeholder> placeholderList) {
+        for (Placeholder placeholder : placeholderList) {
+            placeholderMap.put(placeholder.getIdentifier(), placeholder);
+        }
+        this.placeholders = placeholders;
+        this.register();
     }
 }

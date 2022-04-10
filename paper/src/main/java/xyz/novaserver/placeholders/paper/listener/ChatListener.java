@@ -11,26 +11,26 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;
-import xyz.novaserver.placeholders.common.PlayerData;
-import xyz.novaserver.placeholders.paper.PlaceholdersPaper;
+import xyz.novaserver.placeholders.common.data.PlayerData;
+import xyz.novaserver.placeholders.paper.Main;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class ChatListener implements Listener {
-    private final PlaceholdersPaper plugin;
+    private final Main plugin;
     private final TabAPI tabAPI = TabAPI.getInstance();
 
     private final Map<UUID, BukkitTask> taskMap = new HashMap<>();
 
-    public ChatListener(PlaceholdersPaper plugin) {
+    public ChatListener(Main plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerChat(AsyncChatEvent event) {
-        final ConfigurationNode node = plugin.getConfiguration().getNode("chat-display");
+        final ConfigurationNode node = plugin.getPlaceholders().getConfig().getNode("chat-display");
 
         if (event.isCancelled()) return;
         if (!node.getNode("enabled").getBoolean(true)) return;
@@ -38,7 +38,7 @@ public class ChatListener implements Listener {
 
         UUID uuid = event.getPlayer().getUniqueId();
         TabPlayer tabPlayer = tabAPI.getPlayer(uuid);
-        PlayerData playerData = plugin.getPlayerData(uuid);
+        PlayerData playerData = plugin.getPlaceholders().getData(uuid);
 
         // Raw contents of the message shortened to 16 characters
         String raw = PlainTextComponentSerializer.plainText().serialize(event.message());

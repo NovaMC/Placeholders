@@ -1,13 +1,15 @@
 # Whether to use playerdata (platform, os, etc.) data from proxy plugin
-proxy-data: false
+use-proxy-data: false
 
 # Platforms
-fabric: ""
-forge: ""
-vanilla: ""
-bedrock: ""
+platform:
+  fabric: ""
+  forge: ""
+  default: ""
 
 # Devices
-switch: ""
-xbox: ""
-playstation: ""
+device:
+  switch: ""
+  xbox: ""
+  playstation: ""
+  default: ""
