@@ -68,7 +68,7 @@ public class PAPIExpansion extends PlaceholderExpansion implements Relational, E
         if (player == null || viewer == null) return null;
 
         // Check if placeholder exists & is relational placeholder then get value
-        String lower = identifier.toLowerCase();
+        String lower = "rel_" + identifier.toLowerCase();
         if (placeholderMap.containsKey(lower) && placeholderMap.get(lower) instanceof RelationalType placeholder) {
             return placeholder.get(placeholders.getData(viewer.getUniqueId()), placeholders.getData(player.getUniqueId()));
         }
@@ -78,7 +78,11 @@ public class PAPIExpansion extends PlaceholderExpansion implements Relational, E
     @Override
     public void register(Placeholders placeholders, List<Placeholder> placeholderList) {
         for (Placeholder placeholder : placeholderList) {
-            placeholderMap.put(placeholder.getIdentifier(), placeholder);
+            if (placeholder instanceof RelationalType) {
+                placeholderMap.put("rel_" + placeholder.getIdentifier(), placeholder);
+            } else {
+                placeholderMap.put(placeholder.getIdentifier(), placeholder);
+            }
         }
         this.placeholders = placeholders;
         this.register();
