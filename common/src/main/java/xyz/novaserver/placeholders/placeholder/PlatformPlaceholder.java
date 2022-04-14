@@ -8,7 +8,7 @@ import xyz.novaserver.placeholders.placeholder.type.PlayerType;
 
 public class PlatformPlaceholder extends Placeholder implements PlayerType {
     public PlatformPlaceholder(Placeholders plugin) {
-        super(plugin, "platform", 5000);
+        super(plugin, "platform");
     }
 
     @Override

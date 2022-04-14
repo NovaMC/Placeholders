@@ -12,7 +12,7 @@ public class PrefixPlaceholder extends Placeholder implements PlayerType {
     private final LuckPerms luckPerms = LuckPermsProvider.get();
 
     public PrefixPlaceholder(Placeholders plugin) {
-        super(plugin, "prefix", 3000);
+        super(plugin, "prefix");
     }
 
     @Override
