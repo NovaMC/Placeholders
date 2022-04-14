@@ -13,7 +13,7 @@ public class VoicePlaceholder extends Placeholder implements RelationalType {
     private PlasmoVoiceAPI plasmoApi;
 
     public VoicePlaceholder(Placeholders plugin) {
-        super(plugin, "voice", 5000);
+        super(plugin, "voice", 2000);
 
         RegisteredServiceProvider<PlasmoVoiceAPI> provider = Bukkit.getServicesManager().getRegistration(PlasmoVoiceAPI.class);
         if (provider != null) {

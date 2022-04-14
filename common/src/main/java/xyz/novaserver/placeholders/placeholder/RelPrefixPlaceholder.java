@@ -12,7 +12,7 @@ public class RelPrefixPlaceholder extends Placeholder implements RelationalType 
     private final LuckPerms luckPerms = LuckPermsProvider.get();
 
     public RelPrefixPlaceholder(Placeholders placeholders) {
-        super(placeholders, "prefix", 3000);
+        super(placeholders, "prefix");
     }
 
     @Override
