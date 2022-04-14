@@ -12,6 +12,10 @@
     {
       "id": "floodgate",
       "optional": false
+    },
+    {
+      "id": "luckperms",
+      "optional": false
     }
   ]
 }
