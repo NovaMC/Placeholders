@@ -33,3 +33,15 @@ chat-display:
   prefix-rp: ""
   prefix-default: ""
   color: ""
+
+# Thermometer
+thermometer:
+  cold:
+    rp: ""
+    default: ""
+  average:
+    rp: ""
+    default: ""
+  hot:
+    rp: ""
+    default: ""
