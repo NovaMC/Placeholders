@@ -83,4 +83,9 @@ public class Main implements Plugin {
     public void logInfo(String message) {
         logger.info(message);
     }
+
+    @Override
+    public void reload() {
+        // Nothing needs to be reloaded here
+    }
 }

@@ -13,4 +13,6 @@ public interface Plugin {
     void logError(String message, Exception e);
 
     void logInfo(String message);
+
+    void reload();
 }

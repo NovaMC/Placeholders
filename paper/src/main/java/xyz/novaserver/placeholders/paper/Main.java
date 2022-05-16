@@ -3,6 +3,7 @@ package xyz.novaserver.placeholders.paper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.novaserver.placeholders.actionbar.ActionbarManager;
 import xyz.novaserver.placeholders.common.Placeholders;
 import xyz.novaserver.placeholders.common.Plugin;
 import xyz.novaserver.placeholders.common.command.PHCommandExecutor;
@@ -17,11 +18,14 @@ import java.io.File;
 
 public class Main extends JavaPlugin implements Plugin {
     private Placeholders placeholders;
+    private ActionbarManager actionbarManager;
 
     @Override
     public void onEnable() {
         placeholders = new Placeholders(this, new PAPIExpansion(this),
                 new Config(this, new File(getDataFolder(), "config.yml"), "paper-config.yml"));
+        actionbarManager = new ActionbarManager(this,
+                new Config(this, new File(getDataFolder(), "actionbars.yml"), "actionbars.yml"));
 
         if (placeholders.isUsingProxyData()) {
             placeholders.setProxyConnection(new PaperProxyConnection(this));
@@ -65,5 +69,10 @@ public class Main extends JavaPlugin implements Plugin {
     @Override
     public void logInfo(String message) {
         getSLF4JLogger().info(message);
+    }
+
+    @Override
+    public void reload() {
+        actionbarManager.reload();
     }
 }

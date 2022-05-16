@@ -85,6 +85,9 @@ public final class Placeholders {
         if (!success) {
             plugin.logError("Failed to load Placeholders config file!", null);
         }
+        // Reload platform-specific features
+        plugin.reload();
+
         return success;
     }
 }
