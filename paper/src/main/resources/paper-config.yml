@@ -45,3 +45,11 @@ thermometer:
   hot:
     rp: ""
     default: ""
+
+degrees:
+  celsius:
+    rp: ""
+    default: "°C"
+  fahrenheit:
+    rp: ""
+    default: "°F"
