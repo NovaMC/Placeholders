@@ -3,6 +3,7 @@ package xyz.novaserver.placeholders.actionbar;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ActionbarListener implements Listener {
     private final ActionbarManager manager;
@@ -14,5 +15,10 @@ public class ActionbarListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         manager.onJoin(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        manager.onQuit(event.getPlayer());
     }
 }

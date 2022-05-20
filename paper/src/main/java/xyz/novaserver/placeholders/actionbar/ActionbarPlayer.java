@@ -2,14 +2,14 @@ package xyz.novaserver.placeholders.actionbar;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.geysermc.floodgate.api.FloodgateApi;
 
 public class ActionbarPlayer {
-    private ActionbarConfig currentActionbar;
+    private ActionbarConfig.Actionbar currentActionbar;
     private BukkitTask actionbarRefresher;
 
     private final ActionbarManager manager;
@@ -24,12 +24,8 @@ public class ActionbarPlayer {
         return player;
     }
 
-    public void setActionbar(ActionbarConfig actionbar) {
+    public void setActionbar(ActionbarConfig.Actionbar actionbar) {
         currentActionbar = actionbar;
-    }
-
-    public ActionbarConfig getActionbar() {
-        return currentActionbar;
     }
 
     public void cancel() {
@@ -38,22 +34,31 @@ public class ActionbarPlayer {
 
     public void schedule() {
         if (actionbarRefresher == null || actionbarRefresher.isCancelled()) {
-            // Schedule task for refreshing based on interval fron actionbar config
-            boolean floodgatePlayer = isFloodgatePlayer(player);
+            long interval = currentActionbar.interval();
+            String message = currentActionbar.message();
+
+            // Use bedrock-specific data if specified
+            if (currentActionbar.bedrock() != null && isFloodgatePlayer(player)) {
+                interval = currentActionbar.bedrock().interval();
+                message = currentActionbar.bedrock().message();
+            }
+
+            // Schedule task for refreshing based on interval from actionbar config
+            final String finalMessage = message;
             actionbarRefresher = Bukkit.getScheduler().runTaskTimerAsynchronously(manager.getPlugin(), () -> {
                 // Parse the actionbar message and send it to the player
-                player.sendActionBar(!floodgatePlayer
-                        ? parseMessage(currentActionbar.message())
-                        : parseMessage(currentActionbar.bedrock().message()));
-            }, 1, !floodgatePlayer ? currentActionbar.interval() : currentActionbar.bedrock().interval());
+                player.sendActionBar(parseMessage(finalMessage));
+            }, 1, interval);
         }
     }
 
     private Component parseMessage(String message) {
         // Set PAPI placeholders on message
-        PlaceholderAPI.setPlaceholders(player, message);
+        message = PlaceholderAPI.setPlaceholders(player, message);
+        // TODO: RGB support along with legacy ampersand support
+        message = message.replaceAll("§", "&");
         // Parse with minimessage and return
-        return MiniMessage.miniMessage().deserialize(message);
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(message);
     }
 
     private boolean isFloodgatePlayer(Player player) {

@@ -17,8 +17,8 @@ public class PHCommandExecutor extends CommandExecutor {
     @Override
     public void execute(String[] args, Object source) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            if (getPlaceholders().reloadConfig()) {
-                getPlaceholders().getPlugin().sendMessage(source, Component.text("Successfully reloaded the config!").color(NamedTextColor.GREEN));
+            if (getPlaceholders().reload()) {
+                getPlaceholders().getPlugin().sendMessage(source, Component.text("Successfully reloaded NovaPlaceholders!").color(NamedTextColor.GREEN));
             }
         }
     }

@@ -24,8 +24,7 @@ public class Main extends JavaPlugin implements Plugin {
     public void onEnable() {
         placeholders = new Placeholders(this, new PAPIExpansion(this),
                 new Config(this, new File(getDataFolder(), "config.yml"), "paper-config.yml"));
-        actionbarManager = new ActionbarManager(this,
-                new Config(this, new File(getDataFolder(), "actionbars.yml"), "actionbars.yml"));
+        actionbarManager = new ActionbarManager(this);
 
         if (placeholders.isUsingProxyData()) {
             placeholders.setProxyConnection(new PaperProxyConnection(this));
@@ -73,6 +72,8 @@ public class Main extends JavaPlugin implements Plugin {
 
     @Override
     public void reload() {
-        actionbarManager.reload();
+        if (actionbarManager != null) {
+            actionbarManager.reload();
+        }
     }
 }

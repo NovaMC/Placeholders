@@ -1,69 +1,59 @@
 package xyz.novaserver.placeholders.actionbar;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xyz.novaserver.placeholders.common.util.Config;
 import xyz.novaserver.placeholders.paper.Main;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 public class ActionbarManager {
     private final Main plugin;
-    private final Config config;
+    private final ActionbarConfig config;
 
-    private final List<ActionbarConfig> actionBars = new ArrayList<>();
-    private final Set<ActionbarPlayer> actionbarPlayerSet = new HashSet<>();
+    private final List<ActionbarConfig.Actionbar> actionbarList = new ArrayList<>();
+    private final Map<UUID, ActionbarPlayer> actionbarPlayerSet = new HashMap<>();
 
-    public ActionbarManager(Main plugin, Config config) {
+    public ActionbarManager(Main plugin) {
         this.plugin = plugin;
-        this.config = config;
+        this.config = new ActionbarConfig(this, new Config(this,
+                new File(plugin.getDataFolder(), "actionbars.yml"), "actionbars.yml"));
 
-        reloadConfig();
+        config.loadConfig();
+        if (!config.get().getNode("options", "enabled").getBoolean(false)) {
+            return;
+        }
+        config.loadActionbars(actionbarList);
+        plugin.getServer().getPluginManager().registerEvents(new ActionbarListener(this), plugin);
     }
 
     public void reload() {
-        reloadConfig();
-        actionbarPlayerSet.forEach(ActionbarPlayer::cancel);
+        config.loadConfig();
+        config.loadActionbars(actionbarList);
+        actionbarPlayerSet.values().forEach(ActionbarPlayer::cancel);
         actionbarPlayerSet.clear();
         for (Player player : Bukkit.getOnlinePlayers()) {
             onJoin(player);
         }
     }
 
-    private void reloadConfig() {
-        boolean success = config.loadConfig();
-        if (!success) {
-            plugin.logError("Failed to load Actionbars config file!", null);
-        }
-
-        actionBars.clear();
-        config.getRoot().getChildrenList().forEach(node -> {
-            try {
-                actionBars.add(config.getRoot().getValue(TypeToken.of(ActionbarConfig.class)));
-            } catch (ObjectMappingException e) {
-                plugin.logError("Mapping exception occurred while trying to deserialize config!", e);
-            }
-        });
-    }
-
     public void onJoin(Player player) {
-        for (ActionbarPlayer actionbarPlayer : actionbarPlayerSet) {
-            if (actionbarPlayer.getPlayer() == player) {
-                return;
-            }
+        if (actionbarPlayerSet.containsKey(player.getUniqueId())) {
+            return;
         }
         ActionbarPlayer actionbarPlayer = new ActionbarPlayer(this, player);
-        actionbarPlayerSet.add(actionbarPlayer);
+        actionbarPlayerSet.put(player.getUniqueId(), actionbarPlayer);
         loadActionbar(actionbarPlayer);
     }
 
+    public void onQuit(Player player) {
+        actionbarPlayerSet.get(player.getUniqueId()).cancel();
+        actionbarPlayerSet.remove(player.getUniqueId());
+    }
+
     private void loadActionbar(ActionbarPlayer player) {
-        actionBars.forEach(player::setActionbar);
+        actionbarList.forEach(player::setActionbar);
         player.schedule();
     }
 

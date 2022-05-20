@@ -1,12 +1,17 @@
-temperature-example:
-  # The interval between sending updates (in ticks)
-  interval: 40
-  # The message to send (with PAPI and minimessage support)
-  message: "%nova_thermometer% 40°C"
-  # Display condition(s) - most specific actionbar is shown to the player
-  # WORLDGUARD (not implemented)  - control this actionbar with worldguard region flags
-  conditions: []
-  # Use different interval and message for bedrock players
-  bedrock:
-    interval: 20
-    message: "40°C"
+options:
+  # Where to enable actionbars or not
+  enabled: false
+
+actionbars:
+  temperature-example:
+    # The interval between sending updates (in ticks)
+    interval: 40
+    # The message to send (with PAPI and color support)
+    message: "  %nova_hud_temp%"
+    # Display condition(s) - most specific actionbar is shown to the player
+    # WORLDGUARD (not implemented)  - control this actionbar with worldguard region flags
+    conditions: []
+    # Use different interval and message for bedrock players
+    bedrock:
+      interval: 20
+      message: "40°C"

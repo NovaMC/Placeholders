@@ -1,6 +1,10 @@
 # Whether to send playerdata (platform, os, etc.) to backend servers
 use-proxy-data: false
 
+# Stored characters for lowered numbers from resource pack
+# using the format [-0123456789]
+hud-numbers: "-0123456789"
+
 # Platforms
 platform:
   fabric: ""
@@ -34,19 +38,21 @@ chat-display:
   prefix-default: ""
   color: ""
 
-# Thermometer
-thermometer:
+# Thermometer placeholder
+# 'temp' value is less than or equal to value specified (celsius)
+temperature:
   cold:
+    temp: 0
     rp: ""
     default: ""
   average:
+    temp: 40
     rp: ""
     default: ""
   hot:
+    # No temp need here, all values greater than average temp
     rp: ""
     default: ""
-
-degrees:
   celsius:
     rp: ""
     default: "°C"
