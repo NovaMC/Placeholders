@@ -1,4 +1,4 @@
-package xyz.novaserver.placeholders.paper.util;
+package xyz.novaserver.placeholders.placeholder.util;
 
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -27,5 +27,13 @@ public final class NumberUtils {
         }
         // Convert numberChars to string and return
         return String.valueOf(numberChars);
+    }
+
+    /**
+     * @param celsius An integer with a temperature in celsius
+     * @return A new integer with a temperature in fahrenheit
+     */
+    public static int celsiusToFahrenheit(int celsius) {
+        return celsius * 9 / 5 + 32;
     }
 }
