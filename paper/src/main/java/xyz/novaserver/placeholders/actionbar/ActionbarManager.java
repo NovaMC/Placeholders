@@ -15,30 +15,38 @@ public class ActionbarManager {
     private final List<ActionbarConfig.Actionbar> actionbarList = new ArrayList<>();
     private final Map<UUID, ActionbarPlayer> actionbarPlayerSet = new HashMap<>();
 
+    private boolean isEnabled;
+
     public ActionbarManager(Main plugin) {
         this.plugin = plugin;
         this.config = new ActionbarConfig(this, new Config(this,
                 new File(plugin.getDataFolder(), "actionbars.yml"), "actionbars.yml"));
+        plugin.getServer().getPluginManager().registerEvents(new ActionbarListener(this), plugin);
 
         config.loadConfig();
-        if (!config.get().getNode("options", "enabled").getBoolean(false)) {
-            return;
-        }
+        isEnabled = config.get().getNode("options", "enabled").getBoolean(false);
+        if (!isEnabled) return;
         config.loadActionbars(actionbarList);
-        plugin.getServer().getPluginManager().registerEvents(new ActionbarListener(this), plugin);
     }
 
     public void reload() {
-        config.loadConfig();
-        config.loadActionbars(actionbarList);
+        // Cancel player tasks and clear player actionbar set
         actionbarPlayerSet.values().forEach(ActionbarPlayer::cancel);
         actionbarPlayerSet.clear();
+        // Load new config values
+        config.loadConfig();
+        // If not set to enabled don't load any actionbars
+        isEnabled = config.get().getNode("options", "enabled").getBoolean(false);
+        if (!isEnabled) return;
+        // Load actionbars then load players
+        config.loadActionbars(actionbarList);
         for (Player player : Bukkit.getOnlinePlayers()) {
             onJoin(player);
         }
     }
 
     public void onJoin(Player player) {
+        if (!isEnabled) return;
         if (actionbarPlayerSet.containsKey(player.getUniqueId())) {
             return;
         }
@@ -48,6 +56,7 @@ public class ActionbarManager {
     }
 
     public void onQuit(Player player) {
+        if (!isEnabled) return;
         actionbarPlayerSet.get(player.getUniqueId()).cancel();
         actionbarPlayerSet.remove(player.getUniqueId());
     }
