@@ -72,8 +72,6 @@ public class Main extends JavaPlugin implements Plugin {
 
     @Override
     public void reload() {
-        if (actionbarManager != null) {
-            actionbarManager.reload();
-        }
+        actionbarManager.reload();
     }
 }
