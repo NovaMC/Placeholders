@@ -3,7 +3,7 @@ package xyz.novaserver.placeholders.paper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.novaserver.placeholders.actionbar.ActionbarManager;
+import xyz.novaserver.placeholders.paper.actionbar.ActionbarManager;
 import xyz.novaserver.placeholders.common.Placeholders;
 import xyz.novaserver.placeholders.common.Plugin;
 import xyz.novaserver.placeholders.common.command.PHCommandExecutor;

@@ -1,4 +1,4 @@
-package xyz.novaserver.placeholders.actionbar;
+package xyz.novaserver.placeholders.paper.actionbar;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;

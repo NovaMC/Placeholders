@@ -1,4 +1,4 @@
-package xyz.novaserver.placeholders.actionbar;
+package xyz.novaserver.placeholders.paper.actionbar;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMapper;

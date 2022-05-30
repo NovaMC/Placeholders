@@ -1,4 +1,4 @@
-package xyz.novaserver.placeholders.actionbar;
+package xyz.novaserver.placeholders.paper.actionbar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
