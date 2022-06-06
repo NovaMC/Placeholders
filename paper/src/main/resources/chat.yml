@@ -1,0 +1,8 @@
+# Enables or disables the entire chat formatting feature
+enabled: true
+
+# Used to blocker certain resource pack unicode
+# characters from being sent in the chat
+enable-char-filter: true
+blocked-chars:
+  - ""
