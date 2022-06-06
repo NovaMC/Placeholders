@@ -1,6 +1,7 @@
 package xyz.novaserver.placeholders.paper.chat.util;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
@@ -25,7 +26,19 @@ public class MetaUtils {
         return asComponent(value != null ? value : "");
     }
 
-    private static Component asComponent(String s) {
+    public static Component replacePlaceholders(Player player, Component component) {
+        TextReplacementConfig.Builder builder = TextReplacementConfig.builder()
+                .matchLiteral("<player>")
+                .times(1000)
+                .replacement(player.displayName());
+        return component.replaceText(builder.build());
+    }
+
+    public static String replacePlaceholders(Player player, String s) {
+        return s.replace("<player>", player.getName());
+    }
+
+    public static Component asComponent(String s) {
         return LegacyComponentSerializer.legacyAmpersand().deserialize(s);
     }
 

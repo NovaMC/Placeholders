@@ -1,6 +1,15 @@
 # Enables or disables the entire chat formatting feature
 enabled: true
 
+# Controls the text and command for clickable messages
+clickable:
+  # Whether the command below should be executed or just autofilled
+  should-execute: false
+  # Text to show when hovering over messages
+  hover-text: "&7Send a message to <player>"
+  # Command to execute or autofill
+  command: "/msg <player> "
+
 # Used to blocker certain resource pack unicode
 # characters from being sent in the chat
 enable-char-filter: true
