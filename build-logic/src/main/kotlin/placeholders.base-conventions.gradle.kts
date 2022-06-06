@@ -2,6 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     `java-library`
+    `maven-publish`
 }
 
 tasks {
@@ -14,6 +15,17 @@ tasks {
     compileJava {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(17)
+    }
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "xyz.novaserver.placeholders"
+                artifactId = project.name
+                version = "${project.version}"
+
+                from(components["java"])
+            }
+        }
     }
 }
 

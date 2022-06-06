@@ -1,7 +1,6 @@
 plugins {
     id("placeholders.base-conventions")
     id("com.github.johnrengelman.shadow")
-    id("maven-publish")
 }
 
 tasks {
@@ -33,15 +32,5 @@ tasks {
     }
     build {
         dependsOn(shadowJar)
-    }
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                artifactId = "NovaPlaceholders-${project.name}"
-                version = "${project.version}"
-
-                from(components["java"])
-            }
-        }
     }
 }
