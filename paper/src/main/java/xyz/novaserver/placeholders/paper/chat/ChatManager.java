@@ -13,6 +13,8 @@ public class ChatManager {
     private FormatListener listener;
     private boolean isEnabled;
 
+    private final FancyRenderer fancyRenderer = new FancyRenderer(this);
+
     public ChatManager(Main plugin) {
         this.plugin = plugin;
         this.config = new Config(plugin, new File(plugin.getDataFolder(), "chat.yml"), "chat.yml");
@@ -29,6 +31,10 @@ public class ChatManager {
 
     public Main getPlugin() {
         return plugin;
+    }
+
+    public FancyRenderer getFancyRenderer() {
+        return fancyRenderer;
     }
 
     public void reload() {
