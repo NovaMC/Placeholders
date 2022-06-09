@@ -41,7 +41,7 @@ public final class ActionbarConfig {
         });
     }
 
-    static class Actionbar {
+    public static class Actionbar {
         private static final ObjectMapper<Actionbar> MAPPER;
 
         static {
