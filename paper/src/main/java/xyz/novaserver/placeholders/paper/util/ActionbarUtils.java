@@ -61,7 +61,11 @@ public final class ActionbarUtils {
      * @return A converted value based in a new range
      */
     public static int convertRange(double oldMin, double oldMax, double newMin, double newMax, double value) {
+        // Clamp the value based on the min and max
+        value = Math.max(Math.min(value, oldMax), oldMin);
+        // Calculate percentage of the value based on old range
         double percent = (value - oldMin) / (oldMax - oldMin);
+        // Use percentage to get a value from the new range
         double result = ((newMax - newMin) * percent) + newMin;
         return (int) Math.round(result);
     }
