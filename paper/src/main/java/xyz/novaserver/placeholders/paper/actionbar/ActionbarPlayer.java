@@ -28,8 +28,20 @@ public class ActionbarPlayer {
         currentActionbar = actionbar;
     }
 
+    public ActionbarConfig.Actionbar getCurrentActionbar() {
+        return currentActionbar;
+    }
+
     public void cancel() {
         actionbarRefresher.cancel();
+    }
+
+    public boolean isCancelled() {
+        return actionbarRefresher.isCancelled();
+    }
+
+    public void clear() {
+        player.sendActionBar(Component.empty());
     }
 
     public void schedule() {

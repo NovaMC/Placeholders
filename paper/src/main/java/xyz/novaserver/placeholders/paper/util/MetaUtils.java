@@ -1,4 +1,4 @@
-package xyz.novaserver.placeholders.paper.chat.util;
+package xyz.novaserver.placeholders.paper.util;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;

@@ -11,6 +11,8 @@ actionbars:
     # Display condition(s) - most specific actionbar is shown to the player
     # WORLDGUARD (not implemented)  - control this actionbar with worldguard region flags
     conditions: []
+    # Should we hide the actionbar when obstructions (like air/bubble bar) appear
+    hide: true
     # Use different interval and message for bedrock players
     bedrock:
       interval: 20

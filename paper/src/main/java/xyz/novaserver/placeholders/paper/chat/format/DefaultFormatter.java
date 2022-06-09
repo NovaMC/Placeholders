@@ -6,7 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import org.geysermc.floodgate.api.FloodgateApi;
-import xyz.novaserver.placeholders.paper.chat.util.MetaUtils;
+import xyz.novaserver.placeholders.paper.util.MetaUtils;
 
 public class DefaultFormatter implements Formatter {
     @Override

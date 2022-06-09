@@ -3,7 +3,12 @@ use-proxy-data: false
 
 # Stored characters for lowered numbers from resource pack
 # using the format [-0123456789]
-hud-numbers: "-0123456789"
+hud:
+  numbers: "-0123456789"
+  # Char used for alignment in the actionbar
+  align-char: " "
+  # Char used as a gap between text and icons in the actionbar
+  space-char: " "
 
 # Platforms
 platform:
@@ -39,26 +44,18 @@ chat-display:
   color: ""
 
 # Thermometer placeholder
-# 'temp' value is less than or equal to value specified (celsius)
 temperature:
-  cold:
-    temp: 0
-    rp: ""
-    default: ""
-  average:
-    temp: 40
-    rp: ""
-    default: ""
-  hot:
-    # No temp need here, all values greater than average temp
-    rp: ""
-    default: ""
+  # Thermometer chars which will be chosen based on the temperature range
+  chars: "......"
+  # Placeholder character to use in place of a thermometer for bedrock players
+  default: "|"
+  # Bottom of the range to map thermometers to (Celsius)
+  range-low: -20
+  # Top of the range to map thermometers to (Celsius)
+  range-high: 60
   celsius:
     rp: ""
     default: "°C"
   fahrenheit:
     rp: ""
     default: "°F"
-#temperature:
-#  thermometer-chars: "......."
-#  thermometer-default: "|"

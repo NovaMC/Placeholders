@@ -66,6 +66,10 @@ public class ActionbarManager {
         player.schedule();
     }
 
+    public ActionbarPlayer getActionbarPlayer(UUID player) {
+        return actionbarPlayerSet.get(player);
+    }
+
     public Main getPlugin() {
         return plugin;
     }

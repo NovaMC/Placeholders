@@ -4,7 +4,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
-import xyz.novaserver.placeholders.paper.chat.util.MetaUtils;
+import xyz.novaserver.placeholders.paper.util.MetaUtils;
 
 public class ConsoleFormatter implements Formatter {
     @Override

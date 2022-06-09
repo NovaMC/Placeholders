@@ -1,4 +1,4 @@
-package xyz.novaserver.placeholders.placeholder.util;
+package xyz.novaserver.placeholders.placeholder.seasons;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -107,5 +107,13 @@ public class SeasonsUtils {
             // Realistic seasons not loaded, should never get to this point
         }
         return color;
+    }
+
+    /**
+     * @param celsius An integer with a temperature in celsius
+     * @return A new integer with a temperature in fahrenheit
+     */
+    public static int celsiusToFahrenheit(int celsius) {
+        return celsius * 9 / 5 + 32;
     }
 }

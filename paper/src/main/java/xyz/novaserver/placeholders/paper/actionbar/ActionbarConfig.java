@@ -59,6 +59,7 @@ public final class ActionbarConfig {
         private @Setting long interval;
         private @Setting String message;
         private @Setting List<Condition> conditions;
+        private @Setting boolean hide;
         private @Setting Bedrock bedrock;
 
         public long interval() {
@@ -67,6 +68,10 @@ public final class ActionbarConfig {
 
         public String message() {
             return message;
+        }
+
+        public boolean hide() {
+            return hide;
         }
 
         public Bedrock bedrock() {

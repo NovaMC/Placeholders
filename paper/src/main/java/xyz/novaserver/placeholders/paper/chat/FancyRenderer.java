@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.novaserver.placeholders.paper.chat.format.ConsoleFormatter;
 import xyz.novaserver.placeholders.paper.chat.format.DefaultFormatter;
 import xyz.novaserver.placeholders.paper.chat.format.Formatter;
-import xyz.novaserver.placeholders.paper.chat.util.MetaUtils;
+import xyz.novaserver.placeholders.paper.util.MetaUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class FancyRenderer implements ChatRenderer {
         if (!(viewer instanceof Player)) {
             // Console renderer
             formatter = consoleFormatter;
-        } else if (hasFormat(source)) {
+        } else if (hasFormat(source.getUniqueId())) {
             // Grab custom format if the player has one
             formatter = formatMap.get(source.getUniqueId());
         }
@@ -62,15 +62,15 @@ public class FancyRenderer implements ChatRenderer {
         return formatted;
     }
 
-    public void setFormat(Player player, Formatter formatter) {
-        formatMap.put(player.getUniqueId(), formatter);
+    public void setFormat(UUID player, Formatter formatter) {
+        formatMap.put(player, formatter);
     }
 
-    public void removeFormat(Player player) {
-        formatMap.remove(player.getUniqueId());
+    public void removeFormat(UUID player) {
+        formatMap.remove(player);
     }
 
-    public boolean hasFormat(Player p) {
-        return formatMap.containsKey(p.getUniqueId());
+    public boolean hasFormat(UUID player) {
+        return formatMap.containsKey(player);
     }
 }
