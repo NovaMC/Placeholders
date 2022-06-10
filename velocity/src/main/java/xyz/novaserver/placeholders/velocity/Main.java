@@ -13,6 +13,7 @@ import xyz.novaserver.placeholders.common.Plugin;
 import xyz.novaserver.placeholders.common.command.PHCommandExecutor;
 import xyz.novaserver.placeholders.common.messaging.PluginPlatform;
 import xyz.novaserver.placeholders.common.util.Config;
+import xyz.novaserver.placeholders.velocity.chat.ChatFilterListener;
 import xyz.novaserver.placeholders.velocity.command.VelocityCommand;
 import xyz.novaserver.placeholders.velocity.listener.VelocityClientListener;
 import xyz.novaserver.placeholders.velocity.listener.VelocityProxyConnection;
@@ -26,6 +27,7 @@ public class Main implements Plugin {
     private final Path dataDirectory;
 
     private Placeholders placeholders;
+    private ChatFilterListener chatFilter;
 
     @Inject
     public Main(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
@@ -38,6 +40,7 @@ public class Main implements Plugin {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         placeholders = new Placeholders(this, new TABExpansion(),
                 new Config(this, new File(dataDirectory.toFile(), "config.yml"), "velocity-config.yml"));
+        chatFilter = new ChatFilterListener(this);
 
         if (placeholders.isUsingProxyData()) {
             placeholders.setProxyConnection(new VelocityProxyConnection(this));
@@ -86,6 +89,6 @@ public class Main implements Plugin {
 
     @Override
     public void reload() {
-        // Nothing needs to be reloaded here
+        chatFilter.reload();
     }
 }

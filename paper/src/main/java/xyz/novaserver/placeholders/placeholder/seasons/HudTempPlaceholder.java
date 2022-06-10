@@ -17,8 +17,7 @@ import java.util.UUID;
 
 public class HudTempPlaceholder extends Placeholder implements PlayerType {
     // Cache data to save cpu time when the temperature doesn't change
-    private final Map<UUID, Integer> tempCache = new HashMap<>();
-    private final Map<UUID, String> displayCache = new HashMap<>();
+    private final Map<UUID, TemperatureData> tempCache = new HashMap<>();
 
     public HudTempPlaceholder(Placeholders placeholders) {
         super(placeholders, "hud_temp", 2000);
@@ -32,16 +31,21 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
             return "";
         }
 
+        final boolean rpApplied = player.isResourcePackApplied();
         final UUID uuid = player.getUuid();
-        if (!tempCache.containsKey(uuid) || (tempCache.containsKey(uuid) && tempC != tempCache.get(uuid))) {
-            tempCache.put(uuid, tempC);
-        } else if (displayCache.containsKey(uuid)) {
-            return displayCache.get(uuid);
+
+        if (!tempCache.containsKey(uuid)) {
+            tempCache.put(uuid, new TemperatureData(tempC, rpApplied));
+        } else {
+            if (tempCache.get(uuid).equalsData(tempC, rpApplied)) {
+                return tempCache.get(uuid).getDisplay();
+            } else {
+                tempCache.get(uuid).setTemperature(tempC);
+                tempCache.get(uuid).setRpApplied(rpApplied);
+            }
         }
 
-        // Config and cross-platform stuff
         final ConfigurationNode config = getPlaceholders().getConfig();
-        final boolean rpApplied = player.isResourcePackApplied();
 
         // Convert temperature to fahrenheit if specified and convert to string
         final String tempString = String.valueOf(SeasonsUtils.isConvertToFahrenheit()
@@ -64,7 +68,7 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
 
         final Component text = padding.append(temperature).append(gap).append(thermometer);
         final String result = LegacyComponentSerializer.legacySection().serialize(text);
-        displayCache.put(uuid, result);
+        tempCache.get(uuid).setDisplay(result);
 
         return result;
     }

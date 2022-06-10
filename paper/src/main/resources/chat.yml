@@ -9,9 +9,3 @@ clickable:
   hover-text: "&7Send a message to <player>"
   # Command to execute or autofill
   command: "/msg <player> "
-
-# Used to blocker certain resource pack unicode
-# characters from being sent in the chat
-enable-char-filter: true
-blocked-chars:
-  - ""
