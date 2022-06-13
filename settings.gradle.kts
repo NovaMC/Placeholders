@@ -10,7 +10,7 @@ dependencyResolutionManagement {
         maven("https://repo.kryptonmc.org/snapshots")
         maven("https://nexus.velocitypowered.com/repository/maven-public/")
         maven("https://repo.opencollab.dev/maven-snapshots/")
-        maven("https://papermc.io/repo/repository/maven-public/")
+        maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://repo.plo.su")
     }
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)

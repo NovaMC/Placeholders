@@ -1,11 +1,11 @@
 package xyz.novaserver.placeholders.paper.util;
 
+import com.google.common.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -51,7 +51,7 @@ public class MetaUtils {
 
     private static LuckPerms getLuckPerms() {
         final RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        Validate.notNull(provider);
+        Preconditions.checkNotNull(provider);
         return provider.getProvider();
     }
 }
