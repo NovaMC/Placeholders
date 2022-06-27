@@ -9,7 +9,7 @@ reflections = "0.10.2"
 
 # General
 luckperms = "5.4"
-floodgate = "2.1.1-SNAPSHOT"
+floodgate = "2.2.0-SNAPSHOT"
 
 # Platforms
 paper = "1.19-R0.1-SNAPSHOT"
