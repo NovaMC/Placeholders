@@ -5,6 +5,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import ninja.leaping.configurate.ConfigurationNode;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import xyz.novaserver.placeholders.common.Placeholders;
 import xyz.novaserver.placeholders.common.data.PlayerData;
 import xyz.novaserver.placeholders.placeholder.type.Placeholder;
@@ -24,16 +26,19 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
     }
 
     @Override
-    public String get(PlayerData player) {
-        final int tempC = SeasonsUtils.getTemperature(player.getUuid());
-        // Return if temperature is invalid
-        if (tempC == Integer.MIN_VALUE) {
-            return "";
-        }
+    public String get(PlayerData data) {
+        final UUID uuid = data.getUuid();
+        final Player player = Bukkit.getPlayer(uuid);
+        // Return if player could not be retrieved
+        if (player == null) return "";
 
-        final boolean rpApplied = player.isResourcePackApplied();
-        final UUID uuid = player.getUuid();
+        // If temperature is invalid have it display 0 degrees
+        int tempC = SeasonsUtils.getTemperature(player);
+        if (tempC == Integer.MIN_VALUE) tempC = 0;
 
+        final boolean rpApplied = data.isResourcePackApplied();
+
+        // Handle cache data
         if (!tempCache.containsKey(uuid)) {
             tempCache.put(uuid, new TemperatureData(tempC, rpApplied));
         } else {
@@ -46,18 +51,17 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         }
 
         final ConfigurationNode config = getPlaceholders().getConfig();
-
+        final boolean isFahrenheit = SeasonsUtils.getFahrenheitStatus(player);
         // Convert temperature to fahrenheit if specified and convert to string
-        final String tempString = String.valueOf(SeasonsUtils.isConvertToFahrenheit()
-                ? SeasonsUtils.celsiusToFahrenheit(tempC) : tempC);
+        final String tempString = String.valueOf(isFahrenheit ? SeasonsUtils.convertToFahrenheit(tempC) : tempC);
 
         // Added spaces to keep thermometer in place
         Component padding = getPadding(config, rpApplied, tempString);
 
         // Add temp numbers and celsius/fahrenheit sign
         // Color the temperature text
-        final TextColor tempColor = SeasonsUtils.getTemperatureColor(player.getUuid());
-        Component temperature = getTemperature(config, rpApplied, tempString).color(tempColor);
+        final TextColor tempColor = SeasonsUtils.getTemperatureColor(player);
+        Component temperature = getTemperature(config, rpApplied, isFahrenheit, tempString).color(tempColor);
 
         // The gap between the temperature and thermometer
         Component gap = rpApplied
@@ -84,17 +88,17 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         }
     }
 
-    private Component getTemperature(ConfigurationNode config, boolean rpApplied, String tempString) {
+    private Component getTemperature(ConfigurationNode config, boolean rpApplied, boolean isFahrenheit, String tempString) {
         final ConfigurationNode tempNode = config.getNode("temperature");
         if (rpApplied) {
             // Convert numbers to resource pack hud numbers
             final String replaceChars = config.getNode("hud", "numbers").getString("");
-            final Component sign = Component.text(!SeasonsUtils.isConvertToFahrenheit()
+            final Component sign = Component.text(!isFahrenheit
                     ? tempNode.getNode("celsius", "rp").getString("")
                     : tempNode.getNode("fahrenheit", "rp").getString(""));
             return ActionbarUtils.convertNumbers(Component.text(tempString), replaceChars).append(sign);
         } else {
-            final String sign = !SeasonsUtils.isConvertToFahrenheit()
+            final String sign = !isFahrenheit
                     ? tempNode.getNode("celsius", "default").getString()
                     : tempNode.getNode("fahrenheit", "default").getString();
             return Component.text(tempString + sign);
