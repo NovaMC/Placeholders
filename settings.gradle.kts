@@ -1,3 +1,4 @@
+@file:Suppress("UnstableApiUsage")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("VERSION_CATALOGS")
 
@@ -18,6 +19,10 @@ pluginManagement {
 
 rootProject.name = "NovaPlaceholders"
 
-include(":common")
-include(":velocity")
-include(":paper")
+sequenceOf(
+    "common",
+    "velocity",
+    "paper"
+).forEach {
+    include(":$it")
+}
