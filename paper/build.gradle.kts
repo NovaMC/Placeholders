@@ -5,6 +5,4 @@ dependencies {
     compileOnly(libs.paper)
     compileOnly(libs.tab)
     compileOnly(libs.placeholderapi)
-    compileOnly(libs.essentials)
-    compileOnly(libs.plasmo)
 }

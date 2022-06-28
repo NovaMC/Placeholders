@@ -8,18 +8,16 @@ adventure = "4.8.1"
 reflections = "0.10.2"
 
 # General
-luckperms = "5.3"
-floodgate = "2.0-SNAPSHOT"
+luckperms = "5.4"
+floodgate = "2.2.0-SNAPSHOT"
 
 # Platforms
-paper = "1.18.2-R0.1-SNAPSHOT"
-velocity = "3.1.0"
+paper = "1.19-R0.1-SNAPSHOT"
+velocity = "3.1.2-SNAPSHOT"
 
 # Platform extras
-placeholderapi = "2.10.10"
-essentials = "2.19.2"
-tab = "3.0.2"
-plasmo = "1.0.9"
+placeholderapi = "2.11.1"
+tab = "3.1.0"
 
 [libraries]
 
@@ -38,6 +36,4 @@ velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref =
 
 # Platform extras
 placeholderapi = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderapi" }
-essentials = { group = "net.essentialsx", name = "EssentialsX", version.ref = "essentials" }
 tab = { group = "me.neznamy", name = "tab-api", version.ref = "tab" }
-plasmo = { group = "su.plo.voice", name = "spigot", version.ref = "plasmo" }

@@ -5,7 +5,7 @@ plugins {
 
 tasks {
     shadowJar {
-        archiveFileName.set("NovaPlaceholders-${project.name}-${project.version}.jar")
+        archiveFileName.set("${rootProject.name}-${project.name}-${project.version}.jar")
 
         // Exclude unneeded Configurate libraries
         exclude("com/google/**")
