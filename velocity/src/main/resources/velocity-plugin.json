@@ -7,7 +7,7 @@
   "dependencies": [
     {
       "id": "tab",
-      "optional": false
+      "optional": true
     },
     {
       "id": "floodgate",

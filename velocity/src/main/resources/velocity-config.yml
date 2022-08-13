@@ -13,9 +13,3 @@ device:
   xbox: ""
   playstation: ""
   default: ""
-
-# Used to blocker certain resource pack unicode
-# characters from being sent in the chat
-enable-char-filter: true
-blocked-chars:
-  - ""

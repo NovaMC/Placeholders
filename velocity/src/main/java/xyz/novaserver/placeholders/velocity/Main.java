@@ -8,6 +8,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
 import org.slf4j.Logger;
+import xyz.novaserver.placeholders.common.DummyExpansion;
 import xyz.novaserver.placeholders.common.Placeholders;
 import xyz.novaserver.placeholders.common.Plugin;
 import xyz.novaserver.placeholders.common.command.PHCommandExecutor;
@@ -36,7 +37,8 @@ public class Main implements Plugin {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        placeholders = new Placeholders(this, new TABExpansion(),
+        placeholders = new Placeholders(this,
+                proxy.getPluginManager().isLoaded("tab") ? new TABExpansion() : new DummyExpansion(),
                 new Config(this, new File(dataDirectory.toFile(), "config.yml"), "velocity-config.yml"));
 
         if (placeholders.isUsingProxyData()) {
