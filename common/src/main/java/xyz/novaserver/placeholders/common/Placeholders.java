@@ -3,6 +3,7 @@ package xyz.novaserver.placeholders.common;
 import ninja.leaping.configurate.ConfigurationNode;
 import xyz.novaserver.core.util.ReflectionUtil;
 import xyz.novaserver.placeholders.common.data.PlayerData;
+import xyz.novaserver.placeholders.common.messaging.PluginPlatform;
 import xyz.novaserver.placeholders.common.messaging.ProxyConnection;
 import xyz.novaserver.placeholders.common.util.Config;
 import xyz.novaserver.placeholders.placeholder.type.Placeholder;
@@ -25,6 +26,10 @@ public final class Placeholders {
         reloadConfig();
         usingProxyData = getConfig().getNode("use-proxy-data").getBoolean(false);
 
+        // Don't try to load placeholders on the proxy
+        if (plugin.getPlatform() == PluginPlatform.PROXY) {
+            return;
+        }
         // Load placeholders
         final List<Placeholder> placeholderList = new ArrayList<>();
         try {
