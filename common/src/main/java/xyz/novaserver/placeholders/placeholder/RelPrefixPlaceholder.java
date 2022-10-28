@@ -19,7 +19,7 @@ public class RelPrefixPlaceholder extends Placeholder implements RelationalType 
     public String get(PlayerData viewer, PlayerData player) {
         User user = luckPerms.getUserManager().getUser(player.getUuid());
 
-        if (viewer.isResourcePackApplied()) {
+        if (!viewer.isBedrock()) {
             String prefix = user != null ? user.getCachedData().getMetaData().getPrefix() : null;
             return prefix != null ? prefix : "";
         } else {

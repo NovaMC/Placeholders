@@ -2,28 +2,20 @@ package xyz.novaserver.placeholders.placeholder.seasons;
 
 public class TemperatureData {
     private int temperature;
-    private boolean rpApplied;
+    private boolean bedrock;
     private String display;
 
-    public TemperatureData(int temperature, boolean rpApplied) {
+    public TemperatureData(int temperature, boolean bedrock) {
         this.temperature = temperature;
-        this.rpApplied = rpApplied;
-    }
-
-    public int getTemperature() {
-        return temperature;
+        this.bedrock = bedrock;
     }
 
     public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
-    public boolean isRpApplied() {
-        return rpApplied;
-    }
-
-    public void setRpApplied(boolean rpApplied) {
-        this.rpApplied = rpApplied;
+    public void setBedrock(boolean bedrock) {
+        this.bedrock = bedrock;
     }
 
     public String getDisplay() {
@@ -34,8 +26,8 @@ public class TemperatureData {
         this.display = display;
     }
 
-    public boolean equalsData(int temperature, boolean rpApplied) {
+    public boolean equalsData(int temperature, boolean bedrock) {
         return temperature == this.temperature
-                && rpApplied == this.rpApplied;
+                && bedrock == this.bedrock;
     }
 }

@@ -16,8 +16,8 @@ public class ChatDisplayPlaceholder extends Placeholder implements RelationalTyp
         final ConfigurationNode node = getPlaceholders().getConfig().getNode("chat-display");
 
         if (!player.getLastMessage().isEmpty()) {
-            final String prefix = viewer.isResourcePackApplied()
-                    ? node.getNode("prefix-rp").getString() : node.getNode("prefix-default").getString();
+            final String prefix = !viewer.isBedrock()
+                    ? node.getNode("prefix-java").getString() : node.getNode("prefix-bedrock").getString();
             return prefix + node.getNode("color").getString() + player.getLastMessage();
         } else {
             return "";

@@ -34,8 +34,8 @@ public class AfkPlaceholder extends Placeholder implements RelationalType {
         if (!isAfk(player.getUuid())) {
             return "";
         } else {
-            return viewer.isResourcePackApplied() ? node.getNode("status", "afk", "rp").getString()
-                    : node.getNode("status", "afk", "default").getString();
+            return !viewer.isBedrock() ? node.getNode("status", "afk", "java").getString()
+                    : node.getNode("status", "afk", "bedrock").getString();
         }
     }
 }

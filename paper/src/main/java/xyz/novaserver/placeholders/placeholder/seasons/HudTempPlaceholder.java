@@ -36,17 +36,17 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         int tempC = SeasonsUtils.getTemperature(player);
         if (tempC == Integer.MIN_VALUE) tempC = 0;
 
-        final boolean rpApplied = data.isResourcePackApplied();
+        final boolean bedrock = data.isBedrock();
 
         // Handle cache data
         if (!tempCache.containsKey(uuid)) {
-            tempCache.put(uuid, new TemperatureData(tempC, rpApplied));
+            tempCache.put(uuid, new TemperatureData(tempC, bedrock));
         } else {
-            if (tempCache.get(uuid).equalsData(tempC, rpApplied)) {
+            if (tempCache.get(uuid).equalsData(tempC, bedrock)) {
                 return tempCache.get(uuid).getDisplay();
             } else {
                 tempCache.get(uuid).setTemperature(tempC);
-                tempCache.get(uuid).setRpApplied(rpApplied);
+                tempCache.get(uuid).setBedrock(bedrock);
             }
         }
 
@@ -56,19 +56,19 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         final String tempString = String.valueOf(isFahrenheit ? SeasonsUtils.convertToFahrenheit(tempC) : tempC);
 
         // Added spaces to keep thermometer in place
-        Component padding = getPadding(config, rpApplied, tempString);
+        Component padding = getPadding(config, bedrock, tempString);
 
         // Add temp numbers and celsius/fahrenheit sign
         // Color the temperature text
         final TextColor tempColor = SeasonsUtils.getTemperatureColor(player);
-        Component temperature = getTemperature(config, rpApplied, isFahrenheit, tempString).color(tempColor);
+        Component temperature = getTemperature(config, bedrock, isFahrenheit, tempString).color(tempColor);
 
         // The gap between the temperature and thermometer
-        Component gap = rpApplied
+        Component gap = !bedrock
                 ? Component.text(config.getNode("hud", "space-char").getString(" ")) : Component.space();
 
         // Add thermometer icon depending on temp and resource pack status
-        Component thermometer = getThermometer(config, rpApplied, tempC, tempColor);
+        Component thermometer = getThermometer(config, bedrock, tempC, tempColor);
 
         final Component text = padding.append(temperature).append(gap).append(thermometer);
         final String result = LegacyComponentSerializer.legacySection().serialize(text);
@@ -77,8 +77,8 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         return result;
     }
 
-    private Component getPadding(ConfigurationNode config, boolean rpApplied, String tempString) {
-        if (rpApplied) {
+    private Component getPadding(ConfigurationNode config, boolean bedrock, String tempString) {
+        if (!bedrock) {
             // Get chars used to right align to hotbar on java
             final String alignChars = ActionbarUtils.getAlignChars(tempString.length(),
                     4, config.getNode("hud", "align-char").getString(""));
@@ -88,9 +88,9 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         }
     }
 
-    private Component getTemperature(ConfigurationNode config, boolean rpApplied, boolean isFahrenheit, String tempString) {
+    private Component getTemperature(ConfigurationNode config, boolean bedrock, boolean isFahrenheit, String tempString) {
         final ConfigurationNode tempNode = config.getNode("temperature");
-        if (rpApplied) {
+        if (!bedrock) {
             // Convert numbers to resource pack hud numbers
             final String replaceChars = config.getNode("hud", "numbers").getString("");
             final Component sign = Component.text(!isFahrenheit
@@ -105,10 +105,10 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
         }
     }
 
-    private Component getThermometer(ConfigurationNode config, boolean rpApplied, int tempC, TextColor tempColor) {
+    private Component getThermometer(ConfigurationNode config, boolean bedrock, int tempC, TextColor tempColor) {
         final ConfigurationNode tempNode = config.getNode("temperature");
         String defaultTherm = tempNode.getNode("default").getString("|");
-        if (rpApplied) {
+        if (!bedrock) {
             String thermChars = tempNode.getNode("chars").getString(defaultTherm);
             int rangeLow = tempNode.getNode("range-low").getInt();
             int rangeHigh = tempNode.getNode("range-high").getInt();

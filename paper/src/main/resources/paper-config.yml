@@ -12,6 +12,7 @@ hud:
 
 # Platforms
 platform:
+  quilt: ""
   fabric: ""
   forge: ""
   default: ""
@@ -26,21 +27,21 @@ device:
 # Status
 status:
   afk:
-    rp: ""
-    default: ""
+    java: ""
+    bedrock: ""
   voice:
-    rp: ""
-    default: ""
+    java: ""
+    bedrock: ""
   no-voice:
-    rp: ""
-    default: ""
+    java: ""
+    bedrock: ""
 
 # Chat
 chat-display:
   enabled: true
   time: 80
-  prefix-rp: ""
-  prefix-default: ""
+  prefix-java: ""
+  prefix-bedrock: ""
   color: ""
 
 # Thermometer placeholder
@@ -48,14 +49,14 @@ temperature:
   # Thermometer chars which will be chosen based on the temperature range
   chars: "......"
   # Placeholder character to use in place of a thermometer for bedrock players
-  default: "|"
+  bedrock: "|"
   # Bottom of the range to map thermometers to (Celsius)
   range-low: -20
   # Top of the range to map thermometers to (Celsius)
   range-high: 60
   celsius:
-    rp: ""
-    default: "°C"
+    java: ""
+    bedrock: "°C"
   fahrenheit:
-    rp: ""
-    default: "°F"
+    java: ""
+    bedrock: "°F"

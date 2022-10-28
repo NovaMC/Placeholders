@@ -19,7 +19,7 @@ public class PrefixPlaceholder extends Placeholder implements PlayerType {
     public String get(PlayerData player) {
         User user = luckPerms.getUserManager().getUser(player.getUuid());
 
-        if (player.isResourcePackApplied()) {
+        if (!player.isBedrock()) {
             String prefix = user != null ? user.getCachedData().getMetaData().getPrefix() : null;
             return prefix != null ? prefix : "";
         } else {

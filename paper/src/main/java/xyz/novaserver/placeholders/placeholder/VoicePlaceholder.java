@@ -47,12 +47,12 @@ public class VoicePlaceholder extends Placeholder implements RelationalType {
         final ConfigurationNode node = getPlaceholders().getConfig().getNode("status");
         final boolean hasVoice = hasVoiceChat(player.getUuid());
 
-        if (viewer.isResourcePackApplied()) {
-            return hasVoice ? node.getNode("voice", "rp").getString()
-                    : node.getNode("no-voice", "rp").getString();
+        if (!viewer.isBedrock()) {
+            return hasVoice ? node.getNode("voice", "java").getString()
+                    : node.getNode("no-voice", "java").getString();
         } else {
-            return hasVoice ? node.getNode("voice", "default").getString()
-                    : node.getNode("no-voice", "default").getString();
+            return hasVoice ? node.getNode("voice", "bedrock").getString()
+                    : node.getNode("no-voice", "bedrock").getString();
         }
     }
 }

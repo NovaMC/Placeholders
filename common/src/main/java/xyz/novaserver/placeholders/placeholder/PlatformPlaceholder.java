@@ -27,6 +27,7 @@ public class PlatformPlaceholder extends Placeholder implements PlayerType {
                     default -> placeholder = node.getNode("device", "default").getString();
                 }
             }
+            case QUILT -> placeholder = node.getNode("platform", "quilt").getString();
             case FABRIC -> placeholder = node.getNode("platform", "fabric").getString();
             case FORGE -> placeholder = node.getNode("platform", "forge").getString();
             default -> placeholder = node.getNode("platform", "default").getString();

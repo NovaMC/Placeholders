@@ -37,6 +37,10 @@ public class PlayerData {
         return uuid;
     }
 
+    public boolean isBedrock() {
+        return platform == Platform.BEDROCK;
+    }
+
     public Platform getPlatform() {
         return platform;
     }
