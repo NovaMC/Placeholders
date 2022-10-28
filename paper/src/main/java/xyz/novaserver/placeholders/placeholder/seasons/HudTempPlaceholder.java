@@ -94,20 +94,20 @@ public class HudTempPlaceholder extends Placeholder implements PlayerType {
             // Convert numbers to resource pack hud numbers
             final String replaceChars = config.getNode("hud", "numbers").getString("");
             final Component sign = Component.text(!isFahrenheit
-                    ? tempNode.getNode("celsius", "rp").getString("")
-                    : tempNode.getNode("fahrenheit", "rp").getString(""));
+                    ? tempNode.getNode("celsius", "java").getString("")
+                    : tempNode.getNode("fahrenheit", "java").getString(""));
             return ActionbarUtils.convertNumbers(Component.text(tempString), replaceChars).append(sign);
         } else {
             final String sign = !isFahrenheit
-                    ? tempNode.getNode("celsius", "default").getString()
-                    : tempNode.getNode("fahrenheit", "default").getString();
+                    ? tempNode.getNode("celsius", "bedrock").getString()
+                    : tempNode.getNode("fahrenheit", "bedrock").getString();
             return Component.text(tempString + sign);
         }
     }
 
     private Component getThermometer(ConfigurationNode config, boolean bedrock, int tempC, TextColor tempColor) {
         final ConfigurationNode tempNode = config.getNode("temperature");
-        String defaultTherm = tempNode.getNode("default").getString("|");
+        String defaultTherm = tempNode.getNode("bedrock").getString("|");
         if (!bedrock) {
             String thermChars = tempNode.getNode("chars").getString(defaultTherm);
             int rangeLow = tempNode.getNode("range-low").getInt();
