@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class SeasonsUtils {
     private static final Class<?>[] PLAYER_TYPE = new Class[]{Player.class};
@@ -131,7 +132,8 @@ public class SeasonsUtils {
         if ((int) invokeMethod(tempSettings, "getWarmFireTemp", null) < temp)
             color = NamedTextColor.DARK_RED; // 4
         if ((int) invokeMethod(tempSettings, "getBoostMinTemp", null) <= temp
-                && (int) invokeMethod(tempSettings, "getBoostMaxTemp", null) >= temp)
+                && (int) invokeMethod(tempSettings, "getBoostMaxTemp", null) >= temp
+                && ((List<?>)invokeMethod(tempSettings, "getBoostPotionEffects", null)).size() > 0)
             color = NamedTextColor.LIGHT_PURPLE; // d
         return color;
     }
