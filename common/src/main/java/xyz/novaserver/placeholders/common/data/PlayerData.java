@@ -15,18 +15,16 @@ public class PlayerData {
 
     private Platform platform = Platform.DEFAULT;
     private DeviceOs deviceOs = DeviceOs.UNKNOWN;
-    private boolean resourcePackApplied = false;
     private String lastMessage = "";
+
+    private static final ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
 
     public PlayerData(UUID uuid, Placeholders placeholders) {
         this(uuid);
         if (placeholders.isUsingProxyData() && placeholders.getPlugin().getPlatform() == PluginPlatform.SERVER) {
             // Initial proxy data request
-            final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
             executor.schedule(() -> {
                 placeholders.getProxyConnection().requestData(uuid, DataConstants.CHANNEL_PLATFORM);
-                placeholders.getProxyConnection().requestData(uuid, DataConstants.CHANNEL_DEVICE);
-                placeholders.getProxyConnection().requestData(uuid, DataConstants.CHANNEL_RP);
             }, 50, TimeUnit.MILLISECONDS);
         }
     }
@@ -55,14 +53,6 @@ public class PlayerData {
         if (deviceOs != null) this.deviceOs = deviceOs;
     }
 
-    public boolean isResourcePackApplied() {
-        return resourcePackApplied;
-    }
-
-    public void setResourcePackApplied(boolean resourcePackApplied) {
-        this.resourcePackApplied = resourcePackApplied;
-    }
-
     public String getLastMessage() {
         return lastMessage;
     }
@@ -72,6 +62,7 @@ public class PlayerData {
     }
 
     public enum Platform {
+        QUILT,
         FABRIC,
         FORGE,
         BEDROCK,

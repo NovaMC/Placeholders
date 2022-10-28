@@ -44,10 +44,8 @@ public class VelocityProxyConnection extends ProxyConnection {
         String subchannel = in.readUTF();
 
         PlayerData playerData = plugin.getPlaceholders().getData(uuid);
-        switch (subchannel) {
-            case DataConstants.CHANNEL_PLATFORM -> sendData(uuid, subchannel, playerData.getPlatform().name());
-            case DataConstants.CHANNEL_DEVICE -> sendData(uuid, subchannel, playerData.getDeviceOs().name());
-            case DataConstants.CHANNEL_RP -> sendData(uuid, subchannel, playerData.isResourcePackApplied());
+        if (DataConstants.CHANNEL_PLATFORM.equals(subchannel)) {
+            sendData(uuid, subchannel, playerData.getPlatform().name());
         }
 
         // Set message as handled

@@ -1,7 +1,5 @@
 package xyz.novaserver.placeholders.common;
 
-import xyz.novaserver.placeholders.common.Expansion;
-import xyz.novaserver.placeholders.common.Placeholders;
 import xyz.novaserver.placeholders.placeholder.type.Placeholder;
 
 import java.util.List;

@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.jetbrains.annotations.NotNull;
@@ -42,24 +41,16 @@ public class PaperClientListener implements Listener, PluginMessageListener {
         if (!placeholders.hasData(uuid)) {
             placeholders.addData(uuid);
         }
-    }
-
-    @EventHandler
-    public void onResourcePackStatus(PlayerResourcePackStatusEvent event) {
-        if (placeholders.isUsingProxyData()) return;
-        UUID uuid = event.getPlayer().getUniqueId();
-
-        // Try to create player data in case this event is fired before PlayerJoinEvent
-        if (!placeholders.hasData(uuid)) {
-            placeholders.addData(uuid);
-        }
 
         PlayerData playerData = placeholders.getData(uuid);
-        playerData.setResourcePackApplied(event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED);
+        if (floodgate.isFloodgatePlayer(uuid)) {
+            playerData.setPlatform(PlayerData.Platform.BEDROCK);
+            playerData.setDeviceOs(floodgate.getPlayer(uuid).getDeviceOs());
+        }
     }
 
     @Override
-    public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, @NotNull byte[] message) {
+    public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, byte @NotNull [] message) {
         if (placeholders.isUsingProxyData()) return;
         if (!channel.equals(BRAND_CHANNEL)) return;
 

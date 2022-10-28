@@ -37,8 +37,7 @@ public class Main implements Plugin {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        placeholders = new Placeholders(this,
-                proxy.getPluginManager().isLoaded("tab") ? new TABExpansion() : new DummyExpansion(),
+        placeholders = new Placeholders(this, new DummyExpansion(),
                 new Config(this, new File(dataDirectory.toFile(), "config.yml"), "velocity-config.yml"));
 
         if (placeholders.isUsingProxyData()) {

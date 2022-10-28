@@ -5,7 +5,6 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.geysermc.floodgate.util.DeviceOs;
 import org.jetbrains.annotations.NotNull;
 import xyz.novaserver.placeholders.common.data.PlayerData;
 import xyz.novaserver.placeholders.common.messaging.DataConstants;
@@ -31,16 +30,14 @@ public class PaperProxyConnection extends ProxyConnection implements PluginMessa
     }
 
     @Override
-    public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, @NotNull byte[] message) {
+    public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, byte @NotNull [] message) {
         if (!channel.equals(DataConstants.DATA_CHANNEL)) return;
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
 
         PlayerData playerData = plugin.getPlaceholders().getData(player.getUniqueId());
-        switch (subchannel) {
-            case DataConstants.CHANNEL_PLATFORM -> playerData.setPlatform(PlayerData.Platform.valueOf(in.readUTF()));
-            case DataConstants.CHANNEL_DEVICE -> playerData.setDeviceOs(DeviceOs.valueOf(in.readUTF()));
-            case DataConstants.CHANNEL_RP -> playerData.setResourcePackApplied(in.readBoolean());
+        if (DataConstants.CHANNEL_PLATFORM.equals(subchannel)) {
+            playerData.setPlatform(PlayerData.Platform.valueOf(in.readUTF()));
         }
     }
 }

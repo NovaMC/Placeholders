@@ -1,7 +1,7 @@
 package xyz.novaserver.placeholders.common;
 
 import ninja.leaping.configurate.ConfigurationNode;
-import org.reflections.Reflections;
+import xyz.novaserver.core.util.ReflectionUtil;
 import xyz.novaserver.placeholders.common.data.PlayerData;
 import xyz.novaserver.placeholders.common.messaging.ProxyConnection;
 import xyz.novaserver.placeholders.common.util.Config;
@@ -28,8 +28,8 @@ public final class Placeholders {
         // Load placeholders
         final List<Placeholder> placeholderList = new ArrayList<>();
         try {
-            Reflections reflections = new Reflections("xyz.novaserver.placeholders.placeholder");
-            Set<Class<? extends Placeholder>> classes = reflections.getSubTypesOf(Placeholder.class);
+            Set<Class<? extends Placeholder>> classes = ReflectionUtil.getSubTypes("xyz.novaserver.placeholders.placeholder",
+                    Placeholder.class, getClass().getClassLoader());
             for (Class<? extends Placeholder> clazz : classes) {
                 try {
                     placeholderList.add(clazz.getDeclaredConstructor(Placeholders.class).newInstance(this));

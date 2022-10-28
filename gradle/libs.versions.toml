@@ -9,6 +9,7 @@ adventure = "4.8.1"
 # General
 luckperms = "5.4"
 floodgate = "2.2.0-SNAPSHOT"
+core = "1.0-SNAPSHOT"
 
 # Platforms
 paper = "1.19.2-R0.1-SNAPSHOT"
@@ -27,6 +28,7 @@ adventure = { group = "net.kyori", name = "adventure-api", version.ref = "advent
 # General
 luckperms = { group = "net.luckperms", name = "api", version.ref = "luckperms" }
 floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
+core = { group = "xyz.novaserver.core", name = "core-common", version.ref = "core" }
 
 # Platforms
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }

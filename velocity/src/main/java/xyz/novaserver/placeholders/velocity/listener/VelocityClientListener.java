@@ -4,7 +4,6 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.player.PlayerClientBrandEvent;
-import com.velocitypowered.api.event.player.PlayerResourcePackStatusEvent;
 import org.geysermc.floodgate.api.FloodgateApi;
 import xyz.novaserver.placeholders.common.Placeholders;
 import xyz.novaserver.placeholders.common.data.PlayerData;
@@ -32,6 +31,12 @@ public class VelocityClientListener {
         if (!placeholders.hasData(uuid)) {
             placeholders.addData(uuid);
         }
+
+        PlayerData playerData = placeholders.getData(uuid);
+        if (floodgate.isFloodgatePlayer(uuid)) {
+            playerData.setPlatform(PlayerData.Platform.BEDROCK);
+            playerData.setDeviceOs(floodgate.getPlayer(uuid).getDeviceOs());
+        }
     }
 
     @Subscribe
@@ -55,25 +60,6 @@ public class VelocityClientListener {
         // Send updated data to backend server
         if (placeholders.isUsingProxyData()) {
             placeholders.getProxyConnection().sendData(uuid, DataConstants.CHANNEL_PLATFORM, playerData.getPlatform().name());
-            placeholders.getProxyConnection().sendData(uuid, DataConstants.CHANNEL_DEVICE, playerData.getDeviceOs().name());
-        }
-    }
-
-    @Subscribe
-    public void onResourcePackStatus(PlayerResourcePackStatusEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
-
-        // Try to create player data in case this event is fired before PostLoginEvent
-        if (!placeholders.hasData(uuid)) {
-            placeholders.addData(uuid);
-        }
-
-        PlayerData playerData = placeholders.getData(uuid);
-        playerData.setResourcePackApplied(event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFUL);
-
-        // Send updated data to backend server
-        if (placeholders.isUsingProxyData()) {
-            placeholders.getProxyConnection().sendData(uuid, DataConstants.CHANNEL_RP, playerData.isResourcePackApplied());
         }
     }
 }

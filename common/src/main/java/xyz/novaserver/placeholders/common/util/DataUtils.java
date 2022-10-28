@@ -5,12 +5,18 @@ import xyz.novaserver.placeholders.common.data.PlayerData;
 public final class DataUtils {
 
     public static PlayerData.Platform getPlatform(String brand) {
-        if (brand.contains("fabric")) {
-            return PlayerData.Platform.FABRIC;
-        } else if (brand.matches("(?i)fml|forge")) {
-            return PlayerData.Platform.FORGE;
-        } else {
-            return PlayerData.Platform.DEFAULT;
+        switch (brand) {
+            case "quilt" -> {
+                return PlayerData.Platform.QUILT;
+            } case "fabric" -> {
+                return PlayerData.Platform.FABRIC;
+            } case "forge" -> {
+                return PlayerData.Platform.FORGE;
+            } case "Geyser" -> {
+                return PlayerData.Platform.BEDROCK;
+            } default -> {
+                return PlayerData.Platform.DEFAULT;
+            }
         }
     }
 
