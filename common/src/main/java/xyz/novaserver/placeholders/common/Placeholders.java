@@ -1,7 +1,7 @@
 package xyz.novaserver.placeholders.common;
 
 import ninja.leaping.configurate.ConfigurationNode;
-import xyz.novaserver.core.util.ReflectionUtil;
+import xyz.novaserver.core.common.util.ReflectionUtil;
 import xyz.novaserver.placeholders.common.data.PlayerData;
 import xyz.novaserver.placeholders.common.messaging.PluginPlatform;
 import xyz.novaserver.placeholders.common.messaging.ProxyConnection;

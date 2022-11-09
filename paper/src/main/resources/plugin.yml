@@ -2,7 +2,7 @@ name: @name@
 version: @version@
 api-version: 1.16
 softdepend: [TAB, Essentials, PlasmoVoice, RealisticSeasons]
-depend: [PlaceholderAPI, floodgate, LuckPerms, NovaCore]
+depend: [PlaceholderAPI, floodgate, LuckPerms, NovaLib]
 main: xyz.novaserver.placeholders.paper.Main
 author: Nova
 commands:
