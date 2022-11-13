@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.novaserver.placeholders.common.data.PlayerData;
 import xyz.novaserver.placeholders.paper.Main;
@@ -65,5 +66,16 @@ public class ChatListener implements Listener {
             taskMap.remove(uuid);
         }, node.getNode("time").getLong());
         taskMap.put(uuid, task);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        final UUID uuid = event.getPlayer().getUniqueId();
+
+        // Cancel and clear task from the map
+        if (taskMap.containsKey(uuid)) {
+            taskMap.get(uuid).cancel();
+            taskMap.remove(uuid);
+        }
     }
 }
